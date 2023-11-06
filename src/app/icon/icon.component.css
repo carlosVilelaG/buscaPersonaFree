@@ -1,0 +1,10 @@
+a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    display: inline-block; /* Permite el dimensionamiento y margen */
+    margin: 0 10px; /* Añade espacio alrededor del enlace */
+  }
+
+  img {
+    width: 24px; /* o el tamaño que prefieras */
+    height: auto;
+  }

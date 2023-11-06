@@ -1,0 +1,10 @@
+header {
+    background: url(src/assets/images/question-mark-1872665_640.jpg);
+/* Centrar la imagen en el header */
+/*background-position: center center;
+/* Hacer que la imagen de fondo cubra completamente el espacio disponible */
+/*background-size: cover;
+/* La imagen de fondo no se repite */
+/*background-repeat: no-repeat;*/
+
+}

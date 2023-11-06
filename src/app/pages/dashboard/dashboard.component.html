@@ -1,0 +1,4 @@
+<app-nav></app-nav>
+<p *ngIf="!userLoginOn">Usuario No autenticado</p>
+<p *ngIf="userLoginOn">Usuario {{userDatos?.nombres}} Autenticado</p>
+<app-mapa *ngIf="userLoginOn"></app-mapa>

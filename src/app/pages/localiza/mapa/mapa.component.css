@@ -1,0 +1,12 @@
+#mapUOC { height: 590px; }
+
+.search-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* para asegurar que el formulario aparezca sobre el mapa */
+  }
+  .map-container {
+    height: 400px; /* o la altura que desees */
+  }
+  
