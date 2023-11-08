@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Contrato } from '../models/contrato';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContratoService {
 
-  private API_URL = 'http://localhost:4000/localizador';
+  private API_URL = environment.urlApi;
 
   constructor(private http: HttpClient) {}
 

@@ -1,5 +1,11 @@
-<div class="search-container">
-    <input type="text" [(ngModel)]="profesionBuscada" placeholder="Ingrese profesión">
-    <button (click)="buscarProfesion()">Buscar</button>
+<div class="custom-container my-5">
+<div class="mb-3">
+    <label for="profesional" class="form-label">Buscar Profesional</label>
+    <select class="form-select" [(ngModel)]="profesionBuscada" (change)="buscarProfesion()" name="profesional">
+        <option *ngFor="let profesion of profesiones" [value]="profesion.id_area">
+          {{ profesion.nombre_area_profesion }}
+        </option>
+      </select>
 </div>
-<div id="mapUOC"></div>
+<div id="mapUOC" class="map-container"></div>
+</div>

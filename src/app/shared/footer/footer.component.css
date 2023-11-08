@@ -2,7 +2,6 @@ footer {
     background-color: rgb(100, 98, 98);
 }
 
-.icon-container-footer {
-   margin-bottom: 20px; /* ajusta el 20px al espacio deseado */  
-}
-
+.app-footer {
+    height: 60px; /* Asegúrate de que este valor coincida con la altura real de tu footer */
+  }

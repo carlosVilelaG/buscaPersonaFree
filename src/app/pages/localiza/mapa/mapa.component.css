@@ -1,12 +1,19 @@
 #mapUOC { height: 590px; }
 
-.search-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000; /* para asegurar que el formulario aparezca sobre el mapa */
-  }
-  .map-container {
-    height: 400px; /* o la altura que desees */
-  }
+.custom-container {
+    max-width: 60%; /* O el máximo ancho que prefieras */
+    margin-right: auto;
+    margin-left: auto;
+}
+  
+.map-container {
+    width: 100%; /* El mapa ocupará el ancho completo del contenedor personalizado */
+    height: 400px; /* Ajusta la altura según tus necesidades */
+}
+  
+  @media (max-width: 768px) {
+    .custom-container {
+      max-width: 100%; /* En dispositivos pequeños, el contenedor puede ocupar más ancho */
+    }
+  }  
   

@@ -34,7 +34,11 @@ export class LoginComponent implements OnInit {
       
       this.usuarioService.login(email, password).subscribe( {
         next: (usuario) =>{
+          this.usuarioService.setUserEmail(email);
+          this.usuarioService.setUserId(usuario.id);
+          this.usuarioService.setUserName(usuario.nombres);
           console.log('Credenciales correctas:', usuario);
+          console.log('Credenciales correctas::: usuarioId', usuario.id);
           // Si las credenciales son correctas, redirecciona al inicio
           //this.router.navigateByUrl('/inicio');
         },

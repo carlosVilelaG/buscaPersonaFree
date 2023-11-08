@@ -4,11 +4,14 @@ import { Injectable, EventEmitter  } from '@angular/core';
   providedIn: 'root'
 })
 export class NavegacionService {
-  public navigateToContrato = new EventEmitter<number>();
-  constructor() { }
+   // Ajustamos el tipo de EventEmitter para emitir un objeto con los dos IDs.
+   public navigateToContrato = new EventEmitter<{ idcontratante: number, idtrabajador: number }>();
+   constructor() { }
+ 
+   triggerNavigation(idcontratante: number, idtrabajador: number) {
+     console.log('Se llamo al evento con id ', idcontratante);
+     // Emitimos un objeto con ambos IDs.
+     this.navigateToContrato.emit({ idcontratante, idtrabajador });
+   }
 
-  triggerNavigation(id: number) {
-    this.navigateToContrato.emit(id);
-  }
-  
 }

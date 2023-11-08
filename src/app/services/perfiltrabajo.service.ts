@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Perfiltrabajador } from '../models/perfiltrabajador';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfiltrabajoService {
   
-  private API_URL = 'http://localhost:4000/localizador/perfilestrabajo';
+  private API_URL = environment.urlApi+'/perfilestrabajo';
 
   constructor(private http: HttpClient) { }
 

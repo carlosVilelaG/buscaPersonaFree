@@ -1,0 +1,5 @@
+button:hover {
+    background-color: #4CAF50; /* Color de fondo al pasar el mouse */
+    color: white; /* Color del texto al pasar el mouse */
+    /* Puedes agregar más propiedades como transformaciones o transiciones */
+  }

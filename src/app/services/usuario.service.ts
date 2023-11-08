@@ -3,11 +3,21 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
+  
+  private userEmail = new BehaviorSubject<string>('');
+  userEmail$ = this.userEmail.asObservable();
+
+  private userId = new BehaviorSubject<number>(0);
+  userId$ = this.userId.asObservable();
+
+  private userName = new BehaviorSubject<string>('');
+  userName$ = this.userName.asObservable();
 
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   /// inicialixo con un valor incial
@@ -15,9 +25,21 @@ export class UsuarioService {
     id:0, nombres:'',email:'',pasword:'',
     rol:0,identificacion:'',tipoIdentificacion:''});
 
-  private API_ENDPOINT_USER = 'http://localhost:4000/localizador/usuario';
+  private API_ENDPOINT_USER = environment.urlApi+'/usuario';
 
   constructor(private http: HttpClient) {}
+  
+  setUserEmail(email: string) {
+    this.userEmail.next(email);
+  }
+
+  setUserId(id: number) {
+    this.userId.next(id);
+  }
+
+  setUserName(name: string) {
+    this.userName.next(name);
+  }
 
   login(email: string, password: string): Observable<Usuario> {
     const loginData = { email, password };

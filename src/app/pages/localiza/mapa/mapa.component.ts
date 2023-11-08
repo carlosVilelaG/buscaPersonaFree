@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Map, marker, tileLayer } from 'leaflet';
 import { PerfiltrabajoService } from 'src/app/services/perfiltrabajo.service';
 import { UbicacionService } from 'src/app/services/ubicacion.service';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NavegacionService } from 'src/app/services/navegacion.service';
+import { AreaProfesion } from 'src/app/models/areaprofesion';
+import { AreaProfesionService } from 'src/app/services/area-profesion.service';
 
 @Component({
   selector: 'app-mapa',
@@ -17,13 +19,30 @@ export class MapaComponent {
   profesionBuscada: string = '';
   mimapa: Map | null = null;
   marcadores: L.Marker[] = [];
-
+  userId: number = 0;
+  profesiones: AreaProfesion[] = [];
+  areaProfesionPersona : string = '';
   constructor(
     private ubicacionService: UbicacionService,
     private perfiltrabajoService: PerfiltrabajoService,
     private router: Router,
-    private navegacionService: NavegacionService
+    private navegacionService: NavegacionService,
+    private zone: NgZone,
+    private usuarioServicio: UsuarioService,
+    private areaProfesionService: AreaProfesionService
   ) {}
+
+  ngOnInit() {
+    /// cargo datos para el combo
+    this.areaProfesionService.obtenerAreaYProfesion().subscribe({
+      next: (data) => {
+        this.profesiones = data;
+      },
+      error: (error) => {
+        console.error('Error al obtener profesiones', error);
+      },
+    });
+  }
 
   cargarUbicacionUsuarioLogin(email: string) {
     this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email).subscribe({
@@ -43,7 +62,7 @@ export class MapaComponent {
 
   inicializarMapaUsuarioLogin(): void {
     /// coordnadas inciales latitud y longitug :: [-2.27561,-79.87587]
-    this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 16);
+    this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 10);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30,
       attribution:
@@ -51,14 +70,17 @@ export class MapaComponent {
     }).addTo(this.mimapa);
     marker([this.latUser, this.lonUser])
       .addTo(this.mimapa)
-      .bindPopup('Usuario: Carlos Vilela');
+      .bindPopup( `${this.usuarioServicio.userName$}`);
   }
 
   // se llama despues de inicalizar las view del componente
   ngAfterViewInit(): void {
-    this.cargarUbicacionUsuarioLogin('cvilela1979@gmail.com');
-    console.log('valor de larUser::', this.latUser);
-    console.log('valor de lonUser::', this.lonUser);
+    this.usuarioServicio.userEmail$.subscribe((email) => {
+      this.cargarUbicacionUsuarioLogin(email);
+    });
+    this.usuarioServicio.userId$.subscribe((id) => {
+      this.userId = id;
+    });
   }
 
   buscarProfesion() {
@@ -68,7 +90,6 @@ export class MapaComponent {
       this.mimapa?.removeLayer(marcador);
     });
     this.marcadores = []; // inicializo el arreglo de marcadores
-
     this.perfiltrabajoService
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
       .subscribe({
@@ -76,11 +97,13 @@ export class MapaComponent {
           perfiles.forEach((perfil) => {
             const lat = Number(perfil.latitud);
             const lon = Number(perfil.longitud);
+           // let areaProfesionPersona :string = '';
             console.log('perfil:::', perfil);
-            if (!isNaN(lat) && !isNaN(lon) && this.mimapa) {
+            if (!isNaN(lat) && !isNaN(lon) && this.mimapa) {             
               const popupContent = `<div>
                <p>${perfil.nombres} :: Profesión: ${perfil.profesion}</p>
-               <button id="contratar${perfil.id}">Contratar</button>
+               <div class="d-flex justify-content-center"><button class="btn btn-primary me-3" id="contratar${perfil.id}">Contratar</button>
+               <button class="btn btn-primary" id="perfil${perfil.id}">Perfil</button> </div>               
                </div>`;
               const marcadoTrabajador = marker([lat, lon])
                 .addTo(this.mimapa)
@@ -91,10 +114,12 @@ export class MapaComponent {
                 );
                 if (contratarButton) {
                   contratarButton.addEventListener('click', () => {
-                    this.navegacionService.triggerNavigation(perfil.id);
+                    console.log('Botón contratar clickeado!');
+                    this.navegarAContrato(this.userId, perfil.id);
                   });
                 }
               });
+
               this.marcadores.push(marcadoTrabajador);
             }
           });
@@ -105,7 +130,13 @@ export class MapaComponent {
       });
   }
 
-  navegarAContrato(id: number) {
-    this.router.navigate(['/crear-contrato', id]);
+  onProfesionChange() {
+    this.buscarProfesion();
+  }
+
+  navegarAContrato(idcontratante: number, idtrabajador: number) {
+    console.log('Se llamo a navegarAContrato:::::cin id ::', idcontratante);
+    this.router.navigate(['/crear-contrato', idcontratante, idtrabajador]);
+    ///this.router.navigate(['/crear-contrato', id]);
   }
 }

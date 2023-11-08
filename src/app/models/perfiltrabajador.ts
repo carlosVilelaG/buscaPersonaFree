@@ -6,5 +6,6 @@ export interface Perfiltrabajador {
     latitud:string;
     longitud:string;
     introduccion: string;
-    profesion: string;
+    profesion: number;
+    nombreProfesion?:string
 }

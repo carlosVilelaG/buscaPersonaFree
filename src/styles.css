@@ -7,3 +7,40 @@
 .ng-invalid:not(form).ng-touched {
     border-left: 5px solid #a94442;
 }
+
+/* Establece una altura fija para el footer si aún no tiene una */
+.app-footer {
+  height: 60px;
+}
+  
+
+.content-wrapper {
+  flex: 1; /* Esto hará que el content-wrapper se expanda y empuje el footer hacia abajo */
+}
+  
+
+html, body {
+  height: 100%;
+  margin: 0; /* Elimina los márgenes por defecto */
+  font-family: 'Source Sans Pro', sans-serif;
+}
+  
+  .main-container {
+    min-height: 100vh; /* Usa la altura de la ventana del navegador */
+    display: flex;
+    flex-direction: column;
+  }
+/* Estilo de los enlaces activos */
+.navbar-nav .nav-link.active {
+  color: #007bff; /* Color para indicar la página activa */
+  font-weight: bold; /* Hacer el texto de la página activa más grueso */
+}
+
+/* Estilo cuando el cursor pasa por encima de los enlaces */
+.navbar-nav .nav-link:hover {
+  background-color: #e9ecef; /* Color de fondo al pasar el cursor */
+  border-radius: 5px; /* Bordes redondeados para un look más suave */
+  color: #000; /* Cambio de color del texto al pasar el cursor */
+  padding: 5px 10px; /* Espaciado interior para hacer el enlace más grande */
+  transform: scale(1.05); /* Ligeramente más grande al pasar el cursor */
+}

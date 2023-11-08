@@ -1,19 +1,59 @@
 <!-- contrato.component.html -->
-<div class="modal fade" id="registroContratoModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Registrar Contrato</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <h1 class="text-center">Registro de Contrato</h1>
+
+      <form (ngSubmit)="guardarContrato()" class="card p-4">
+        <!-- Estos campos están ocultos, así que no necesitan estructura de form-group -->
+        <input type="hidden" [(ngModel)]="contrato.id_usuario_contratante" name="id_usuario_contratante" />
+        <input type="hidden" [(ngModel)]="contrato.id_usuario_trabajador"  name="id_usuario_trabajador"  />
+
+        <div class="form-group mb-3">
+          <label for="tipo_contrato">Tipo de Contrato</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="contrato.tipo_contrato"
+            name="tipo_contrato"
+            placeholder="Tipo de Contrato"
+          />
         </div>
-        <div class="modal-body">
-          <form>
-            <p>email desde modal: {{emailUsuario}}</p>
-            <!-- Campos del formulario como tipo_contrato, descripcion, etc. -->
-            <button type="submit" class="btn btn-primary">Crear Contrato</button>
-          </form>
+
+        <div class="form-group mb-3">
+          <label for="fecha_inicio">Fecha de Inicio</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="contrato.fecha_inicio"
+            name="fecha_inicio"
+          />
         </div>
-      </div>
+
+        <div class="form-group mb-3">
+          <label for="fecha_fin">Fecha de Fin</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="contrato.fecha_fin"
+            name="fecha_fin"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="descripcion">Descripción</label>
+          <textarea
+            class="form-control"
+            [(ngModel)]="contrato.descripcion"
+            name="descripcion"
+            placeholder="Descripción"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Genera Contrato</button>
+        <button type="button" (click)="cancelarRegistro()" class="btn btn-secondary mb-3">Cancelar</button>
+      </form>
     </div>
+  </div>
 </div>
-  

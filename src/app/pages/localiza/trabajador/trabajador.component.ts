@@ -17,7 +17,7 @@ export class TrabajadorComponent implements OnInit {
     private renderer2: Renderer2, private socket:Socket){}
  
   ngOnInit(): void {
-    this.mapCustonService.buildMap()
+    this.mapCustonService.buildMap('-2.27561','-79.87587')
     .then(({ geocoder, map }) => {
       this.renderer2.appendChild(this.asGeoCoder.nativeElement,
         geocoder.onAdd(map)
@@ -38,33 +38,19 @@ export class TrabajadorComponent implements OnInit {
     }
   });
 
-  this.socket.fromEvent<{ coords: any }>('position') // Especifica el tipo esperado
+  this.socket.fromEvent<{ coords: any }>('position') // Especifico el tipo esperado
   .subscribe(({ coords }) => {
     console.log('************* DESDE SERVER **********', coords);
     this.mapCustonService.addMarkerCustom(coords);
   });
 
   }
-  drawRoute(): void {
-    console.log('*******PUNTOS ORIGEN Y DESTINO *****');
-    /**cuando te haiga asegurado que se ingresaron
-     * las 2 coordenadas punto de origen y destino. */
-    const coords = [
-      this.wayPoints.start.center, 
-      this.wayPoints.end.center
-    ];
-    this.mapCustonService.loadCoords(coords);
-  }
+
   changeMode(mode: string): void {
     this.modeInput = mode;
   }
-  testMarket(): void {
-    // se tuvo que cambiar el orden de coordenas para que mapbox ubique correctamente
-    this.mapCustonService.addMarkerCustom([-79.87599481091047, -2.275790537200894])
-  }
 
 }
-
 
 export class WayPoints {
   start: any;

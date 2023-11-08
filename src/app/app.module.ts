@@ -15,9 +15,13 @@ import { TrabajadorComponent } from './pages/localiza/trabajador/trabajador.comp
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MapaComponent } from './pages/localiza/mapa/mapa.component';
 import { ContratoComponent } from './pages/localiza/contrato/contrato.component';
+import { PerfilComponent } from './pages/localiza/perfil/perfil.component';
+import { AdmincontratoComponent } from './pages/localiza/contrato/admincontrato/admincontrato.component';
+import { RegistroComponent } from './auth/registro/registro.component';
+import { environment } from 'src/environments/environment.development';
 
-///configuramos el puerto 3000
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+///configuramos ruta y puerto de socketIO en environment.urlSocketIo
+const config: SocketIoConfig = { url: environment.urlSocketIo, options: {} };
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     TrabajadorComponent,
     MapaComponent,
     ContratoComponent,
+    PerfilComponent,
+    AdmincontratoComponent,
+    RegistroComponent,
     
   ],
   imports: [
@@ -38,7 +45,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config),FormsModule
+    SocketIoModule.forRoot(config),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
