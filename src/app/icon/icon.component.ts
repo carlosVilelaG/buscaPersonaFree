@@ -9,7 +9,7 @@ export class IconComponent {
   @Input() iconName?: string;
 
   getIconSvgPath(): string {
-    return `/assets/icons/${this.iconName}.svg`;
+    return `assets/icons/${this.iconName}.svg`;
   }
   
 }
