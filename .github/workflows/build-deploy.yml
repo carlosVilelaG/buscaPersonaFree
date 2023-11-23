@@ -1,0 +1,34 @@
+name: Build and Deploy Angular Project
+
+on:
+  push:
+    branches:
+      - master  # Reemplaza con la rama de tu elección
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14  # O la versión de Node.js que tu proyecto requiera
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Project
+      run: ng build --prod --base-href=/buscaPersonaFree/ # Asegúrate de agregar cualquier opción necesaria aquí
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages  # Rama de GitHub Pages
+        folder: dist/busca-persona-free  # Reemplaza con la ruta al directorio de salida de tu proyecto
+        token: ${{ secrets.GITHUB_TOKEN }}
