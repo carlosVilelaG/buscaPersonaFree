@@ -24,7 +24,7 @@ jobs:
       run: npm install
 
     - name: Build Project
-      run: ng build --prod --base-href=/buscaPersonaFree/ # Asegúrate de agregar cualquier opción necesaria aquí
+      run: ng build --base-href=/buscaPersonaFree/ # Asegúrate de agregar cualquier opción necesaria aquí
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.4
