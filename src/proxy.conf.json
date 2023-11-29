@@ -1,0 +1,7 @@
+{
+    "/localizador": {
+        "target": "https://api-back-service-3uomm4d6da-uc.a.run.app",
+        "secure": true,
+        "changeOrigin": true
+        }
+  }
