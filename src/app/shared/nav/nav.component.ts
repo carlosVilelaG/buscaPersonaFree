@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class NavComponent implements OnInit{
  userLoginOn:boolean = false;
-constructor(private usuarioServer: UsuarioService){
+constructor(private usuarioServer: UsuarioService, private router: Router){
 
 }
   ngOnInit(): void {
@@ -18,5 +19,4 @@ constructor(private usuarioServer: UsuarioService){
       }
     })
   }
-
 }

@@ -25,7 +25,7 @@
             <a class="nav-link" routerLink="/admin-contrato" aria-disabled="true">Administra Contratos</a>
           </li>
           <li *ngIf="userLoginOn" class="nav-item">
-            <a class="nav-link" routerLink="/" aria-disabled="true">Cerrar Sesión</a>
+            <a class="nav-link" [routerLink]="['/inicio', { outsesion: 'outsesion' }]" aria-disabled="true">Cerrar Sesión</a>
           </li>
           
         </ul>

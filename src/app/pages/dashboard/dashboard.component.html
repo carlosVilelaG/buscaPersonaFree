@@ -1,3 +1,5 @@
 <p *ngIf="!userLoginOn">Usuario No autenticado</p>
 <p *ngIf="userLoginOn">Usuario {{userDatos?.nombres}} Autenticado</p>
+<!-- Mostrar la imagen de portada -->
+<img *ngIf="!userLoginOn" src="assets/images/Youtube-Finance.png" alt="Portada" class="img-portada">
 <app-mapa *ngIf="userLoginOn"></app-mapa>

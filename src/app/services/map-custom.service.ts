@@ -74,6 +74,7 @@ export class MapCustomService {
     });
   }
 
+  
   /// agrega el marcador en la coordenada ejemplo
   addMarkerCustom(coords: any): void {
     console.log('addMarkerCustom ----->', coords);

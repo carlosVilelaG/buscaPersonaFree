@@ -11,6 +11,7 @@ import { AdmincontratoComponent } from './pages/localiza/contrato/admincontrato/
 const routes: Routes = [
   {path:'',redirectTo:'/inicio', pathMatch:'full'},
   {path:'inicio', component:DashboardComponent},
+  {path:'inicio/:outsesion', component:DashboardComponent},
   {path:'iniciar-sesion', component:LoginComponent},
   {path:'crear-contrato/:idcontratante/:idtrabajador', component:ContratoComponent},
   {path: 'ubicacion', component:TrabajadorComponent},

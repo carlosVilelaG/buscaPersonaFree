@@ -13,13 +13,16 @@ export class UbicacionService {
   constructor(private http: HttpClient) { }
 
   obtenerUbicacionUsuarioPorEmail(email: string): Observable<any> {
+    if (!email) {
+      return throwError(() => new Error('Email no puede ser nulo o vacío'));
+    }
+
     return this.http.get(`${this.API_ENDPOINT_USER}/ubicacion/${email}`).pipe(
       catchError(this.handleUbicacionError)
     );
   }
   
   private handleUbicacionError(error: HttpErrorResponse): Observable<never> {
-    console.error('Error occurrido:', error.error.message);
     return throwError(() => new Error('No se pudo obtener la ubicación'));
   }
 }

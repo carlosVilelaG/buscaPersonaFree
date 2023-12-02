@@ -81,5 +81,16 @@ export class UsuarioService {
     return this.currentUserLoginOn.asObservable(); 
  }
 
+ // Método para inicializar valores
+ initializeUserDetails() {
+  this.setUserEmail('');
+  this.setUserId(0);
+  this.setUserName('');
+  this.currentUserLoginOn.next(false);
+  this.currentUserData.next({
+    id: 0, nombres: '', email: '', pasword: '', 
+    rol: 0, identificacion: '', tipoIdentificacion: ''
+  });
+}
 }
 

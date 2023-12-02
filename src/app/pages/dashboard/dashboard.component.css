@@ -1,0 +1,7 @@
+.img-portada {
+    width: 100%;      /* Hace que la imagen ocupe el ancho completo del contenedor */
+    height: auto;     /* Mantiene la proporción de la imagen */
+    display: block;   /* Asegura que la imagen no tenga espacio extra debajo */
+    margin: 0 auto;   /* Centra la imagen si no ocupa todo el ancho */
+    /* Agrega aquí más estilos según sea necesario */
+  }

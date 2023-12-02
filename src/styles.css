@@ -44,3 +44,15 @@ html, body {
   padding: 5px 10px; /* Espaciado interior para hacer el enlace más grande */
   transform: scale(1.05); /* Ligeramente más grande al pasar el cursor */
 }
+
+
+/*   styles migrados desde trabajador.css */
+.geocoder, .mapboxgl-ctrl {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  background-color: white;
+}
+
+
+

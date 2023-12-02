@@ -45,23 +45,31 @@ export class MapaComponent {
   }
 
   cargarUbicacionUsuarioLogin(email: string) {
-    this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email).subscribe({
-      next: (ubicacion) => {
-        // Maneja la ubicación obtenida
-        this.latUser = ubicacion.latitud;
-        this.lonUser = ubicacion.longitud;
-        console.log('UBICACION ::: ', ubicacion);
-        this.inicializarMapaUsuarioLogin();
-      },
-      error: (error) => {
-        // Maneja el error
-        console.log('UBICACION ::: algo paso :( ', error);
-      },
-    });
+    console.log('Ejecutado cargarUbicacionUsuarioLogin');
+    //if(this.usuarioServicio.usuarioLoginOn){
+      this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email).subscribe({
+        next: (ubicacion) => {
+          // Maneja la ubicación obtenida
+          this.latUser = ubicacion.latitud;
+          this.lonUser = ubicacion.longitud;
+          //console.log('UBICACION ::: ', ubicacion);
+          if(ubicacion){
+            console.log('UBICACION :::: ', ubicacion);
+            this.inicializarMapaUsuarioLogin();
+          }        
+        },
+        error: (error) => {
+          // Maneja el error
+          console.log('UBICACION ::: algo paso :( ', error);
+        },
+      });
+    //}
+    
   }
 
   inicializarMapaUsuarioLogin(): void {
     /// coordnadas inciales latitud y longitug :: [-2.27561,-79.87587]
+    console.log('Entro en incializa mapa,', this.usuarioServicio.usuarioLoginOn);
     this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 10);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30,
@@ -76,10 +84,13 @@ export class MapaComponent {
   // se llama despues de inicalizar las view del componente
   ngAfterViewInit(): void {
     this.usuarioServicio.userEmail$.subscribe((email) => {
-      this.cargarUbicacionUsuarioLogin(email);
+      if(this.usuarioServicio.usuarioLoginOn){
+         this.cargarUbicacionUsuarioLogin(email);
+      }
     });
     this.usuarioServicio.userId$.subscribe((id) => {
-      this.userId = id;
+      if(this.usuarioServicio.usuarioLoginOn){
+      this.userId = id;}
     });
   }
 
