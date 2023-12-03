@@ -20,6 +20,8 @@ export class MapCustomService {
   lat = -2.275817;
   lng = -79.875993;
   zoom = 3;
+  ///marker
+  marker!: mapboxgl.Marker;
   /// coordenas global
   wayPoint: Array<any> = [];
   markerDriver: any = null;
@@ -33,35 +35,47 @@ export class MapCustomService {
     return new Promise((resolve, reject) => {
       try {
         console.log('buildMap ###################### evento: ');
-        this.lng = Number(lng);
-        this.lat = Number(lat);
-
+        this.lng = Number(lng); this.lat = Number(lat);
+        console.log('buildMap valores iniciales lat: ', this.lat); console.log('buildMap valores iniciales lng: ', this.lng);    
         this.map = new mapboxgl.Map({
           container: 'map', ///  ide del mapa en el html
           style: this.style,
           zoom: this.zoom,
-          center: [this.lng, this.lat],
+          center: [ this.lat, this.lng],
         });
 
         /** Aqui se construye y inicializa el control de zoom del mapa el + -, pero no pinta bien el imagen **/
-        this.map.addControl(new mapboxgl.NavigationControl());
+        //this.map.addControl(new mapboxgl.NavigationControl())
         /** Aqui se construye el imput buscador de direcciones **/
         const geocoder = new MapboxGeocoder({
           accessToken: mapboxgl.accessToken,
-          mapboxgl,
+          mapboxgl
         });
+        
         //// Aqui escucha el resultado de la busqueda, para capturar las coordenas de la new direccion
         geocoder.on('result', ($event) => {
           const { result } = $event;
-          console.log('###################### evento: ' + result);
+          const coordinates = $event.result.geometry.coordinates;
+           // Asegúrate de que $event.result y $event.result.geometry existe
+           console.log('###################### evento result: ', $event.result);
+           console.log('###################### evento coordinates: ' + coordinates);
+           console.log('### Coord 0 Seleccionada: ' + coordinates[0]); console.log('### Coord 1 Seleccionada: ' + coordinates[1]);
+          console.log('###################### evento capturado: ' + result);
+          this.lat = coordinates[0];
+          this.lng = coordinates[1];          
           geocoder.clear();
+          console.log('### Evento this.lat: ' +this.lat); console.log('### Evento this.lng: ' +this.lng); 
+          // Mueve el marcador a las nuevas coordenadas
+          this.marker.setLngLat([Number(this.lat), Number(this.lng)]);  
           this.cbAddres.emit(result);
-        });
+        })
 
         // Añade un marcador al mapa
-      new mapboxgl.Marker()
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map);
+        console.log('****** lat:', this.lat);  
+        console.log('****** lng:', this.lng);          
+        this.marker =  new mapboxgl.Marker()
+           .setLngLat([Number(this.lat), Number(this.lng)])
+           .addTo(this.map);
 
 
         /**Cuando el key se llama igual que el value o variable de valor
