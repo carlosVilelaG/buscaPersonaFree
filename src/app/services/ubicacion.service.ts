@@ -4,6 +4,7 @@ import { Usuario } from '../models/usuario';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.development';
+import { Ubicacion } from '../models/ubicacion';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,16 @@ export class UbicacionService {
     );
   }
   
-  private handleUbicacionError(error: HttpErrorResponse): Observable<never> {
-    return throwError(() => new Error('No se pudo obtener la ubicación'));
+  guardaActualizaUbicacion(ubicacion: Ubicacion): Observable<any> {
+    //return this.http.post<any>(this.API_ENDPOINT_USER+'/ubicacion', ubicacion);
+    return this.http.post<any>(this.API_ENDPOINT_USER + '/ubicacion', ubicacion).pipe(
+      catchError(this.handleUbicacionError)
+    );
+  }
+
+  private handleUbicacionError(error: HttpErrorResponse) {
+    
+    return throwError(() => new Error('Error en ubicación: ' + error.message));
+
   }
 }

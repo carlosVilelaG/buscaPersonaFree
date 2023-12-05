@@ -19,7 +19,7 @@ export class MapCustomService {
   //coordenas iniciales por defoult
   lat = -2.275817;
   lng = -79.875993;
-  zoom = 3;
+  zoom = 14;
   ///marker
   marker!: mapboxgl.Marker;
   /// coordenas global

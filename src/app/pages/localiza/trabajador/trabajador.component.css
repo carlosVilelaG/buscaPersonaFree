@@ -1,5 +1,5 @@
 .map-container-trabajador {
-  width: 62%;
+  width: 52%;
   height: 500px;
   border-radius: 1rem;
   border: solid 10px white;
@@ -17,7 +17,7 @@
 }  
 .box-inputs {
   background-color: white;
-  width: 62%;
+  width: 52%;
   border-radius: .5rem;
   border: solid 2px #00000008;
   padding: 1rem;
@@ -26,6 +26,7 @@
 }
 
 .mock-input {
+  width: 100%; /*** Le agrgeue de prueba para todos tegan el mismo ancho***/
   background: white;
   padding: .5rem;
   margin-bottom: .5rem;
@@ -54,7 +55,32 @@
 }
 
 .wrapper{
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
+}
+
+
+/*solo para usar en mensajes de error o ok*/
+.fade-out {
+  animation: fadeOut 2s;
+  -webkit-animation: fadeOut 2s;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

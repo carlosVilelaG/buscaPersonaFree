@@ -17,6 +17,9 @@ export class TrabajadorComponent implements OnInit {
   wayPoints: WayPoints = { start: null, end: null };
   ubicacion !: Ubicacion;
   email !: string;
+  mensaje !:string;
+  mensajeClass: string = '';
+
   constructor(private mapCustonService: MapCustomService,
     private renderer2: Renderer2, private socket:Socket,
     private ubicacionService: UbicacionService, private usuarioServicio: UsuarioService){
@@ -84,9 +87,36 @@ export class TrabajadorComponent implements OnInit {
   changeMode(mode: string): void {
     this.modeInput = mode;
   }
-  actualizaUbicacion() :void {
-    console.log('Enviado ubicacion para guardaro actualizar :: ',this.ubicacion);
+  async actualizaUbicacion() :Promise<void> {
+    this.mensaje = "";
+    this.mensajeClass = '';
+    console.log('Enviado ubicacion para guardar o actualizar :: ',this.ubicacion);
+    this.ubicacionService.guardaActualizaUbicacion(this.ubicacion).subscribe({
+      next: (response) => {
+        this.mensaje = 'Guardado con éxito';
+        console.log('Se guardó correctamente:', response);
+        this.ocultarMensajeSegunTiempo();
+      },
+      error: (error) => {
+        console.error('Error al guardar ubicaciones:', error);
+        this.mensaje = 'Presentamos inconvenientes: ' + error;
+        this.ocultarMensajeSegunTiempo();
+      },
+    });
   }
+
+  ocultarMensajeSegunTiempo() {
+    setTimeout(() => {
+      this.mensaje = '';
+      this.mensajeClass = 'fade-out';
+    }, 5000); // Oculta después de 5 segundos
+    setTimeout(() => {
+      this.mensajeClass = 'fade-out';
+    }, 3000); // Comienza a desvanecer después de 3 segundos
+  }
+
+
+  
 }
 
 export class WayPoints {

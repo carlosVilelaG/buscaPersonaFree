@@ -1,4 +1,4 @@
-<h1 class="text-center">Actualice su Ubicación</h1>
+<h1 class="text-center">Actualice Datos de Ubicación</h1>
 
 <div class="wrapper">
     <div class="box-inputs">
@@ -18,12 +18,43 @@
       <div>
         <div class="mock-label">Latitud</div>
         <div class="mock-input">{{ubicacion.latitud}}</div>
-      </div>      
+      </div> 
+      
+      <div>
+        <div class="mock-label">Descripción del Lugar</div>
+        <textarea type="text" pattern="^[a-zA-Z0-9.,;'\sñÑ]*$" class="mock-input form-control" maxlength="200" required="true"
+        [(ngModel)]="ubicacion.descripcion" #descripcion="ngModel" placeholder="Ingresa una descripción"></textarea>
+        <!-- Mensaje de error -->
+        <div *ngIf="descripcion.errors?.['required'] && (descripcion.dirty || descripcion.touched)" class="alert alert-danger">
+          La descripción es requerida.
+        </div>
+        <div *ngIf="descripcion.errors?.['pattern'] && (descripcion.dirty || descripcion.touched)" class="alert alert-danger">
+         Descripción con caracteres no permitidos
+        </div>
+      </div>
+      <div>
+        <div class="mock-label">Teléfono de Ubicación</div>
+        <input type="tel" pattern="[0-9]*" class="mock-input form-control" maxlength="15" required="true"
+        [(ngModel)]="ubicacion.telefono" #telefono="ngModel" placeholder="Ingresa un número de teléfono">
+        <!-- Mensaje de error -->
+        <div *ngIf="telefono.errors?.['required'] && (telefono.dirty || telefono.touched)" class="alert alert-danger">
+         Teléfono es requerido.
+        </div>
+        <div *ngIf="telefono.errors?.['pattern'] && (telefono.dirty || telefono.touched)" class="alert alert-danger">
+         Teléfono inválido, ingrese solo números.
+        </div>
+        <div *ngIf="mensaje" class="alert" [ngClass]="{'alert-success': mensaje.includes('éxito'), 'alert-danger': mensaje.includes('Error'), 'fade-out': mensajeClass === 'fade-out'}">
+          {{ mensaje }}
+        </div>
+        
+      </div> 
     </div>     
 </div>
 <div class="wrapper">
     <div id="map" #asMap class="map-container-trabajador"></div>
 </div>
 <div class="text-center">
-  <button type="submit" (click)="actualizaUbicacion()" class="btn btn-primary">Guardar</button>
+  <button type="submit" (click)="actualizaUbicacion()" [disabled]="descripcion.invalid || telefono.invalid" 
+    class="btn btn-primary">Guardar</button>
 </div>
+

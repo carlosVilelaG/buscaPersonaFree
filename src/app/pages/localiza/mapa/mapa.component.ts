@@ -70,6 +70,10 @@ export class MapaComponent {
   inicializarMapaUsuarioLogin(): void {
     /// coordnadas inciales latitud y longitug :: [-2.27561,-79.87587]
     console.log('Entro en incializa mapa,', this.usuarioServicio.usuarioLoginOn);
+    if (this.mimapa) {
+      console.log('Mapa ya inicializado.');
+      return;
+    }
     this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 10);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30,
