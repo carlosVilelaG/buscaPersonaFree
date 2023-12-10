@@ -26,6 +26,9 @@ export class MapaComponent {
   noTieneUbicacion : boolean = false;
   //private destroy$ = new Subject<void>();
   private mapaSubscription!: Subscription;
+  private ubicacionSubscription!: Subscription;
+  private perfiltrabajoSubscription!: Subscription;
+  private areaProfesionSubscrition!: Subscription;
 
   constructor(
     private ubicacionService: UbicacionService,
@@ -39,7 +42,7 @@ export class MapaComponent {
 
   ngOnInit() {
     /// cargo datos para el combo
-    this.areaProfesionService.obtenerAreaYProfesion()
+    this.areaProfesionSubscrition = this.areaProfesionService.obtenerAreaYProfesion()
     .subscribe({
       next: (data) => {
         this.profesiones = data;
@@ -53,7 +56,7 @@ export class MapaComponent {
   cargarUbicacionUsuarioLogin(email: string) {
     console.log('Ejecutado cargarUbicacionUsuarioLogin:', email);
     //if(this.usuarioServicio.usuarioLoginOn){
-      this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email)
+     this.ubicacionSubscription= this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email)
       .subscribe({
         next: (ubicacion) => {
           
@@ -125,7 +128,7 @@ export class MapaComponent {
       this.mimapa?.removeLayer(marcador);
     });
     this.marcadores = []; // inicializo el arreglo de marcadores
-    this.perfiltrabajoService
+    this.perfiltrabajoSubscription= this.perfiltrabajoService
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
       .subscribe({
         next: (perfiles) => {
@@ -177,8 +180,21 @@ export class MapaComponent {
 
   ngOnDestroy() {
   console.log('destroy de mapa subscribe');
+    if(this.ubicacionSubscription){
+      console.log('destroy de ubicacion subscribe');
+      this.ubicacionSubscription.unsubscribe();
+    }
     if(this.mapaSubscription){
+      console.log('destroy de mapa subscribe');
       this.mapaSubscription.unsubscribe(); 
+    }
+    if(this.perfiltrabajoSubscription){
+      console.log('destroy de perfilTrabajo');
+      this.perfiltrabajoSubscription.unsubscribe();
+    }
+    if(this.areaProfesionSubscrition){
+      console.log('destroy de areaProfesion');
+      this.areaProfesionSubscrition.unsubscribe();
     }
   }
 }
