@@ -17,6 +17,7 @@ export class TrabajadorComponent implements OnInit {
   wayPoints: WayPoints = { start: null, end: null };
   ubicacion !: Ubicacion;
   email !: string;
+  identificacion !: string;
   mensaje !:string;
   mensajeClass: string = '';
 
@@ -36,9 +37,11 @@ export class TrabajadorComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioServicio.userEmail$.subscribe((email) => {
       if(this.usuarioServicio.usuarioLoginOn){
-         this.email = email;
+         this.email = email;         
       }
     });
+    const latitud_generica :string = "41.398176";
+    const longitud_generica :string = "2.170946";
     this.ubicacionService.obtenerUbicacionUsuarioPorEmail(this.email).subscribe({
       next: (ubicacion) => {
         if(ubicacion){
@@ -54,6 +57,21 @@ export class TrabajadorComponent implements OnInit {
             console.log('***** ERROR ****', err);
           });
 
+        }else{
+          // recupero la identificacion del user para el registro de ubicacion
+          this.usuarioServicio.userIdentificacion$.subscribe((identificacion_usuario) =>{
+            this.ubicacion.identificacion_usuario = identificacion_usuario;
+          })
+          /// cuando se registra nuevo ubicación se inicializa con coordenadas generica.
+          this.mapCustonService.buildMap(latitud_generica,longitud_generica)
+          .then(({ geocoder, map }) => {            
+            this.renderer2.appendChild(this.asGeoCoder.nativeElement,
+              geocoder.onAdd(map)
+            );
+          })
+          .catch((err) => {
+            console.log('***** ERROR ****', err);
+          });
         }        
       },
       error: (error) => {

@@ -1,6 +1,11 @@
 <div class="custom-container my-5">
 <div class="mb-3">
     <label for="profesional" class="form-label">Buscar Profesional</label>
+    <div>
+      <div *ngIf="noTieneUbicacion" class="alert alert-danger" style="text-align: center; font-weight: bold;">
+      NO TIENE UBICACIÓN REGISTRADA, FAVOR INGRESAR SUS DATOS DE UBICACIÓN.
+      </div>
+    </div>
     <select class="form-select" [(ngModel)]="profesionBuscada" (change)="buscarProfesion()" name="profesional">
         <option *ngFor="let profesion of profesiones" [value]="profesion.id_area">
           {{ profesion.nombre_area_profesion }}

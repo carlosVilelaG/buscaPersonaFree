@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { NavegacionService } from 'src/app/services/navegacion.service';
 import { AreaProfesion } from 'src/app/models/areaprofesion';
 import { AreaProfesionService } from 'src/app/services/area-profesion.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-mapa',
@@ -22,6 +23,9 @@ export class MapaComponent {
   userId: number = 0;
   profesiones: AreaProfesion[] = [];
   areaProfesionPersona : string = '';
+  noTieneUbicacion : boolean = false;
+  private destroy$ = new Subject<void>();
+
   constructor(
     private ubicacionService: UbicacionService,
     private perfiltrabajoService: PerfiltrabajoService,
@@ -34,7 +38,8 @@ export class MapaComponent {
 
   ngOnInit() {
     /// cargo datos para el combo
-    this.areaProfesionService.obtenerAreaYProfesion().subscribe({
+    this.areaProfesionService.obtenerAreaYProfesion()
+    .pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.profesiones = data;
       },
@@ -45,17 +50,24 @@ export class MapaComponent {
   }
 
   cargarUbicacionUsuarioLogin(email: string) {
-    console.log('Ejecutado cargarUbicacionUsuarioLogin');
+    console.log('Ejecutado cargarUbicacionUsuarioLogin:', email);
     //if(this.usuarioServicio.usuarioLoginOn){
-      this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email).subscribe({
+      this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email)
+      .pipe(takeUntil(this.destroy$)).subscribe({
         next: (ubicacion) => {
-          // Maneja la ubicación obtenida
-          this.latUser = ubicacion.latitud;
-          this.lonUser = ubicacion.longitud;
-          //console.log('UBICACION ::: ', ubicacion);
+          
           if(ubicacion){
+            this.latUser = ubicacion.latitud;
+            this.lonUser = ubicacion.longitud;
+            // Maneja la ubicación obtenida
             console.log('UBICACION :::: ', ubicacion);
-            this.inicializarMapaUsuarioLogin();
+            console.log('1. this.latUser:', this.latUser);
+            console.log('1. this.lonUser:', this.lonUser);
+          
+          this.inicializarMapaUsuarioLogin();
+          }else{
+            this.noTieneUbicacion = true;
+            console.log("No existe ubicacion para usuario, favor registre su ubicacion ahoraaa");
           }        
         },
         error: (error) => {
@@ -74,6 +86,8 @@ export class MapaComponent {
       console.log('Mapa ya inicializado.');
       return;
     }
+    console.log('this.latUser:', this.latUser);
+    console.log('this.lonUser:', this.lonUser);
     this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 10);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30,
@@ -83,16 +97,21 @@ export class MapaComponent {
     marker([this.latUser, this.lonUser])
       .addTo(this.mimapa)
       .bindPopup( `${this.usuarioServicio.userName$}`);
+    
+    console.log('Mapa se iinicializoo.');
   }
 
   // se llama despues de inicalizar las view del componente
   ngAfterViewInit(): void {
-    this.usuarioServicio.userEmail$.subscribe((email) => {
+    this.usuarioServicio.userEmail$
+    .pipe(takeUntil(this.destroy$)).subscribe((email) => {
       if(this.usuarioServicio.usuarioLoginOn){
+        console.log('::::Email:::',email);
          this.cargarUbicacionUsuarioLogin(email);
       }
     });
-    this.usuarioServicio.userId$.subscribe((id) => {
+    this.usuarioServicio.userId$
+    .pipe(takeUntil(this.destroy$)).subscribe((id) => {
       if(this.usuarioServicio.usuarioLoginOn){
       this.userId = id;}
     });
@@ -107,7 +126,7 @@ export class MapaComponent {
     this.marcadores = []; // inicializo el arreglo de marcadores
     this.perfiltrabajoService
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
-      .subscribe({
+      .pipe(takeUntil(this.destroy$)).subscribe({
         next: (perfiles) => {
           perfiles.forEach((perfil) => {
             const lat = Number(perfil.latitud);
@@ -153,5 +172,10 @@ export class MapaComponent {
     console.log('Se llamo a navegarAContrato:::::cin id ::', idcontratante);
     this.router.navigate(['/crear-contrato', idcontratante, idtrabajador]);
     ///this.router.navigate(['/crear-contrato', id]);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
