@@ -7,7 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { NavegacionService } from 'src/app/services/navegacion.service';
 import { AreaProfesion } from 'src/app/models/areaprofesion';
 import { AreaProfesionService } from 'src/app/services/area-profesion.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-mapa',
@@ -24,7 +24,8 @@ export class MapaComponent {
   profesiones: AreaProfesion[] = [];
   areaProfesionPersona : string = '';
   noTieneUbicacion : boolean = false;
-  private destroy$ = new Subject<void>();
+  //private destroy$ = new Subject<void>();
+  private mapaSubscription!: Subscription;
 
   constructor(
     private ubicacionService: UbicacionService,
@@ -39,7 +40,7 @@ export class MapaComponent {
   ngOnInit() {
     /// cargo datos para el combo
     this.areaProfesionService.obtenerAreaYProfesion()
-    .pipe(takeUntil(this.destroy$)).subscribe({
+    .subscribe({
       next: (data) => {
         this.profesiones = data;
       },
@@ -53,7 +54,7 @@ export class MapaComponent {
     console.log('Ejecutado cargarUbicacionUsuarioLogin:', email);
     //if(this.usuarioServicio.usuarioLoginOn){
       this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email)
-      .pipe(takeUntil(this.destroy$)).subscribe({
+      .subscribe({
         next: (ubicacion) => {
           
           if(ubicacion){
@@ -103,15 +104,15 @@ export class MapaComponent {
 
   // se llama despues de inicalizar las view del componente
   ngAfterViewInit(): void {
-    this.usuarioServicio.userEmail$
-    .pipe(takeUntil(this.destroy$)).subscribe((email) => {
+   this.mapaSubscription = this.usuarioServicio.userEmail$
+    .subscribe((email) => {
       if(this.usuarioServicio.usuarioLoginOn){
         console.log('::::Email:::',email);
          this.cargarUbicacionUsuarioLogin(email);
       }
     });
     this.usuarioServicio.userId$
-    .pipe(takeUntil(this.destroy$)).subscribe((id) => {
+    .subscribe((id) => {
       if(this.usuarioServicio.usuarioLoginOn){
       this.userId = id;}
     });
@@ -126,7 +127,7 @@ export class MapaComponent {
     this.marcadores = []; // inicializo el arreglo de marcadores
     this.perfiltrabajoService
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
-      .pipe(takeUntil(this.destroy$)).subscribe({
+      .subscribe({
         next: (perfiles) => {
           perfiles.forEach((perfil) => {
             const lat = Number(perfil.latitud);
@@ -175,7 +176,9 @@ export class MapaComponent {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  console.log('destroy de mapa subscribe');
+    if(this.mapaSubscription){
+      this.mapaSubscription.unsubscribe(); 
+    }
   }
 }
