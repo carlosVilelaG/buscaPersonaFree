@@ -24,7 +24,6 @@ export class UbicacionService {
   }
   
   guardaActualizaUbicacion(ubicacion: Ubicacion): Observable<any> {
-    //return this.http.post<any>(this.API_ENDPOINT_USER+'/ubicacion', ubicacion);
     return this.http.post<any>(this.API_ENDPOINT_USER + '/ubicacion', ubicacion).pipe(
       catchError(this.handleUbicacionError)
     );

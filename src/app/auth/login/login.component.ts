@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit , OnDestroy {
   loginError : string = "";
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -33,17 +33,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value||'';
       const password = this.loginForm.get('password')?.value||'';
-      console.log('entro a login');
       this.loginSubscription = this.usuarioService.login(email, password).subscribe( {
         next: (usuario) =>{
           this.usuarioService.setUserEmail(email);
           this.usuarioService.setUserId(usuario.id);
           this.usuarioService.setUserName(usuario.nombres);
           this.usuarioService.setUserIdentificacion(usuario.identificacion);
-          console.log('Credenciales correctas:', usuario);
-          console.log('Credenciales correctas::: usuarioId', usuario.id);
-          // Si las credenciales son correctas, redirecciona al inicio
-          //this.router.navigateByUrl('/inicio');
         },
         error: (errorData) =>{
           console.log('entro a errorData::',errorData);

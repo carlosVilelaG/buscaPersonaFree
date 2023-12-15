@@ -44,11 +44,9 @@ constructor(private selectores: SelectorService, private usuarioServicio: Usuari
   }
 
 async registrarUsuario() :Promise<void> {  
-  console.log('Enviado registro usuario para guardar :: ');   
   this.usuarioServicio.crearUsuario(this.usuario, this.perfilTrabajo).subscribe({
     next: (response) => {
       this.mensaje = 'Registro con éxito';
-      console.log('Registro con exito:::', response);
     },
     error: (error)=> {
       this.mensaje = 'Presentamos inconvenientes: ' + error;

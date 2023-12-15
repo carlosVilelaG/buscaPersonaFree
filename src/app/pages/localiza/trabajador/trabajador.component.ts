@@ -46,7 +46,6 @@ export class TrabajadorComponent implements OnInit {
       next: (ubicacion) => {
         if(ubicacion){
           this.ubicacion = ubicacion;
-          console.log('UBICACION 2 :::: ', this.ubicacion);
           this.mapCustonService.buildMap(this.ubicacion.latitud,this.ubicacion.longitud)
           .then(({ geocoder, map }) => {            
             this.renderer2.appendChild(this.asGeoCoder.nativeElement,
@@ -82,21 +81,17 @@ export class TrabajadorComponent implements OnInit {
     
 
   this.mapCustonService.cbAddres.subscribe((getPoint) => {
-    /**capturamos las coordenadas */
+    /**capturo las coordenadas */
     if (this.modeInput === 'start') {
       this.wayPoints.start = getPoint;
       this.ubicacion.longitud = this.wayPoints.start.geometry.coordinates[0];
       this.ubicacion.latitud = this.wayPoints.start.geometry.coordinates[1];
-      console.log('##*** this.ubicacion.longitud 0::',this.ubicacion.longitud);
-      console.log('##*** this.ubicacion.latitud 1::',this.ubicacion.latitud);
-      //this.ubicacion.latitud = getPoint.geometry.coordinates[0];
-      //this.ubicacion.longitud = getPoint.geometry.coordinates[1];
+      
     }
   });
 
-  this.socket.fromEvent<{ coords: any }>('position') // Especifico el tipo esperado
+  this.socket.fromEvent<{ coords: any }>('position')
   .subscribe(({ coords }) => {
-    console.log('************* DESDE SERVER **********', coords);
     this.mapCustonService.addMarkerCustom(coords);
   });
 
@@ -108,11 +103,9 @@ export class TrabajadorComponent implements OnInit {
   async actualizaUbicacion() :Promise<void> {
     this.mensaje = "";
     this.mensajeClass = '';
-    console.log('Enviado ubicacion para guardar o actualizar :: ',this.ubicacion);
     this.ubicacionService.guardaActualizaUbicacion(this.ubicacion).subscribe({
       next: (response) => {
         this.mensaje = 'Guardado con éxito';
-        console.log('Se guardó correctamente:', response);
         this.ocultarMensajeSegunTiempo();
       },
       error: (error) => {

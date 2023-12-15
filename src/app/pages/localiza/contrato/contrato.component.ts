@@ -4,6 +4,8 @@ import { Subscription, catchError, tap, throwError } from 'rxjs';
 import { Contrato } from 'src/app/models/contrato';
 import { ContratoService } from 'src/app/services/contrato.service';
 import { NavegacionService } from 'src/app/services/navegacion.service';
+import { SelectorService } from 'src/app/services/selector.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-contrato',
@@ -12,59 +14,75 @@ import { NavegacionService } from 'src/app/services/navegacion.service';
 })
 export class ContratoComponent implements OnInit, OnDestroy {
   contrato: Contrato = {
-    id_usuario_contratante: 0, // Inicializar con el valor recibido
-    id_usuario_trabajador: 0,  // Inicializar con el valor recibido
+    id_usuario_contratante: 0, 
+    id_usuario_trabajador: 0,
     tipo_contrato: 0,
     fecha_inicio: '',
     fecha_fin: '',
     descripcion: ''
   };
-  
+  tipoContrato !: any[];
   private navigationSubscription?: Subscription;
+  mensaje !:string;
+  mensajeClass: string = '';
+  deshabilitaContratar : boolean = false;
+  contratoSubscription!: Subscription;
 
   constructor(
     private navegacionService: NavegacionService,
     private router: ActivatedRoute, private route: Router,
-    private contratoService : ContratoService
+    private contratoService : ContratoService,
+    private selectores: SelectorService
   ) {
-    console.log('Se llama a componente:: es constructor');
+
   }
 
   guardarContrato() {
-    this.contratoService.crearContrato(this.contrato).pipe(
-      tap((respuesta) => console.log('Contrato guardado', respuesta)),
-      catchError((error) => {
-        console.error('Error al guardar contrato', error);
-        // throwError recibe una función que devuelve el error
-        return throwError(() => error);
-      })
-    ).subscribe();
+    this.mensaje = "";
+    this.contratoSubscription = this.contratoService.crearContrato(this.contrato).subscribe({
+      next: (response) => {
+        this.mensaje = 'Contrato creado con exito:';
+        this.deshabilitaContratar = true;
+      },
+      error: (error) =>{
+        this.mensaje = 'Registro de Contrato Presenta inconvenientes: ';
+        console.log( 'Registro de Contrato Presenta inconvenientes: ', error); 
+      }
+    });    
+
   }
+
 
   cancelarRegistro(){
    this.route.navigate(['/inicio']);
   }
 
   ngOnInit(): void {
-    console.log('::Se llama a ngOnInit::');
+    this.mensaje = "";
+    this.deshabilitaContratar =false;
+    this.tipoContrato = this.selectores.getTiposContrato();
     this.router.params.subscribe(params => {
-      this.contrato.id_usuario_contratante = +params['idcontratante']; // El signo '+' convierte el valor en número
+      this.contrato.id_usuario_contratante = +params['idcontratante'];
       this.contrato.id_usuario_trabajador = +params['idtrabajador'];
       this.contrato.estado = "CONTRATADO";
     });
-/*
-    this.navigationSubscription =
-      this.navegacionService.navigateToContrato.subscribe(({idcontratante, idtrabajador}) => {
-        console.log('Se llama a ngOnInit con parametro id::',idtrabajador);
-        this.route.navigate(['/crear-contrato', idcontratante,idtrabajador]);
-      });*/
+    this.contratoService.consultaContratoUsuario(this.contrato.id_usuario_trabajador).subscribe({
+      next: (contrato) => {
+          if (contrato) {
+              this.mensaje = 'Error: El usuario tiene contrato vigente';
+              this.deshabilitaContratar = true;
+          }
+      },
+      error: (error) => {
+          console.log('Entro por error', error);
+      }
+  });    
+
   }
 
   ngOnDestroy(): void {
-    console.log('::Se llama a ngOnDestroy::');
-    if (this.navigationSubscription) {
-      console.log('Se llama a ngOnDestroy');
-      this.navigationSubscription.unsubscribe();
+    if(this.contratoSubscription){
+      this.contratoSubscription.unsubscribe();
     }
   }
   

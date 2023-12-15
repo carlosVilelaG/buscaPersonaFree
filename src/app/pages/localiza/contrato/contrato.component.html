@@ -12,15 +12,12 @@
 
         <div class="form-group mb-3">
           <label for="tipo_contrato">Tipo de Contrato</label>
-          <input
-            type="number"
-            class="form-control"
-            [(ngModel)]="contrato.tipo_contrato"
-            name="tipo_contrato"
-            placeholder="Tipo de Contrato"
-          />
+          <select class="form-select" [(ngModel)]="contrato.tipo_contrato" name="tipo_contrato" required>
+            <option *ngFor="let tipoContrato of tipoContrato" [value]="tipoContrato.id">
+              {{ tipoContrato.nombre }}
+            </option>
+          </select>
         </div>
-
         <div class="form-group mb-3">
           <label for="fecha_inicio">Fecha de Inicio</label>
           <input
@@ -50,8 +47,13 @@
             placeholder="Descripción"
           ></textarea>
         </div>
-
-        <button type="submit" class="btn btn-primary mb-3">Genera Contrato</button>
+        <div class="form-group mb-3">
+          <div *ngIf="mensaje" class="alert" 
+          [ngClass]="{'alert-success': mensaje.includes('exito'), 'alert-danger': mensaje.includes('Error')}">
+            {{ mensaje }}
+          </div>
+        </div>        
+        <button type="submit" class="btn btn-primary mb-3" [disabled]="deshabilitaContratar" >Genera Contrato</button>
         <button type="button" (click)="cancelarRegistro()" class="btn btn-secondary mb-3">Cancelar</button>
       </form>
     </div>

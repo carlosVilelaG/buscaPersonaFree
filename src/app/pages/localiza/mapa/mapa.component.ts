@@ -22,8 +22,8 @@ export class MapaComponent {
   marcadores: L.Marker[] = [];
   userId: number = 0;
   profesiones: AreaProfesion[] = [];
-  areaProfesionPersona : string = '';
-  noTieneUbicacion : boolean = false;
+  areaProfesionPersona: string = '';
+  noTieneUbicacion: boolean = false;
   //private destroy$ = new Subject<void>();
   private mapaSubscription!: Subscription;
   private ubicacionSubscription!: Subscription;
@@ -42,56 +42,44 @@ export class MapaComponent {
 
   ngOnInit() {
     /// cargo datos para el combo
-    this.areaProfesionSubscrition = this.areaProfesionService.obtenerAreaYProfesion()
-    .subscribe({
-      next: (data) => {
-        this.profesiones = data;
-      },
-      error: (error) => {
-        console.error('Error al obtener profesiones', error);
-      },
-    });
+    this.areaProfesionSubscrition = this.areaProfesionService
+      .obtenerAreaYProfesion()
+      .subscribe({
+        next: (data) => {
+          this.profesiones = data;
+        },
+        error: (error) => {
+          console.error('Error al obtener profesiones', error);
+        },
+      });
   }
 
   cargarUbicacionUsuarioLogin(email: string) {
-    console.log('Ejecutado cargarUbicacionUsuarioLogin:', email);
-    //if(this.usuarioServicio.usuarioLoginOn){
-     this.ubicacionSubscription= this.ubicacionService.obtenerUbicacionUsuarioPorEmail(email)
+    this.ubicacionSubscription = this.ubicacionService
+      .obtenerUbicacionUsuarioPorEmail(email)
       .subscribe({
         next: (ubicacion) => {
-          
-          if(ubicacion){
+          if (ubicacion) {
             this.latUser = ubicacion.latitud;
             this.lonUser = ubicacion.longitud;
-            // Maneja la ubicación obtenida
-            console.log('UBICACION :::: ', ubicacion);
-            console.log('1. this.latUser:', this.latUser);
-            console.log('1. this.lonUser:', this.lonUser);
-          
-          this.inicializarMapaUsuarioLogin();
-          }else{
+
+            this.inicializarMapaUsuarioLogin();
+          } else {
             this.noTieneUbicacion = true;
-            console.log("No existe ubicacion para usuario, favor registre su ubicacion ahoraaa");
-          }        
+          }
         },
         error: (error) => {
-          // Maneja el error
           console.log('UBICACION ::: algo paso :( ', error);
         },
       });
-    //}
-    
   }
 
   inicializarMapaUsuarioLogin(): void {
-    /// coordnadas inciales latitud y longitug :: [-2.27561,-79.87587]
-    console.log('Entro en incializa mapa,', this.usuarioServicio.usuarioLoginOn);
     if (this.mimapa) {
       console.log('Mapa ya inicializado.');
       return;
     }
-    console.log('this.latUser:', this.latUser);
-    console.log('this.lonUser:', this.lonUser);
+
     this.mimapa = new Map('mapUOC').setView([this.latUser, this.lonUser], 10);
     tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30,
@@ -100,44 +88,41 @@ export class MapaComponent {
     }).addTo(this.mimapa);
     marker([this.latUser, this.lonUser])
       .addTo(this.mimapa)
-      .bindPopup( `${this.usuarioServicio.userName$}`);
-    
-    console.log('Mapa se iinicializoo.');
+      .bindPopup(`${this.usuarioServicio.userName$}`);
   }
 
   // se llama despues de inicalizar las view del componente
   ngAfterViewInit(): void {
-   this.mapaSubscription = this.usuarioServicio.userEmail$
-    .subscribe((email) => {
-      if(this.usuarioServicio.usuarioLoginOn){
-        console.log('::::Email:::',email);
-         this.cargarUbicacionUsuarioLogin(email);
+    this.mapaSubscription = this.usuarioServicio.userEmail$.subscribe(
+      (email) => {
+        if (this.usuarioServicio.usuarioLoginOn) {
+          this.cargarUbicacionUsuarioLogin(email);
+        }
       }
-    });
-    this.usuarioServicio.userId$
-    .subscribe((id) => {
-      if(this.usuarioServicio.usuarioLoginOn){
-      this.userId = id;}
+    );
+    this.usuarioServicio.userId$.subscribe((id) => {
+      if (this.usuarioServicio.usuarioLoginOn) {
+        this.userId = id;
+      }
     });
   }
 
   buscarProfesion() {
     if (!this.profesionBuscada) return;
-    // Eliminar marcadores existentes del mapa por busquedas anteriores
+    // Eliminoo marcadores existentes del mapa por busquedas anteriores
     this.marcadores.forEach((marcador) => {
       this.mimapa?.removeLayer(marcador);
     });
     this.marcadores = []; // inicializo el arreglo de marcadores
-    this.perfiltrabajoSubscription= this.perfiltrabajoService
+    this.perfiltrabajoSubscription = this.perfiltrabajoService
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
       .subscribe({
         next: (perfiles) => {
           perfiles.forEach((perfil) => {
             const lat = Number(perfil.latitud);
             const lon = Number(perfil.longitud);
-           // let areaProfesionPersona :string = '';
-            console.log('perfil:::', perfil);
-            if (!isNaN(lat) && !isNaN(lon) && this.mimapa) {             
+
+            if (!isNaN(lat) && !isNaN(lon) && this.mimapa) {
               const popupContent = `<div>
                <p>${perfil.nombres} :: Profesión: ${perfil.profesion}</p>
                <div class="d-flex justify-content-center"><button class="btn btn-primary me-3" id="contratar${perfil.id}">Contratar</button>
@@ -173,27 +158,21 @@ export class MapaComponent {
   }
 
   navegarAContrato(idcontratante: number, idtrabajador: number) {
-    console.log('Se llamo a navegarAContrato:::::cin id ::', idcontratante);
     this.router.navigate(['/crear-contrato', idcontratante, idtrabajador]);
-    ///this.router.navigate(['/crear-contrato', id]);
   }
 
   ngOnDestroy() {
-  console.log('destroy de mapa subscribe');
-    if(this.ubicacionSubscription){
-      console.log('destroy de ubicacion subscribe');
+    console.log('destroy de mapa subscribe');
+    if (this.ubicacionSubscription) {
       this.ubicacionSubscription.unsubscribe();
     }
-    if(this.mapaSubscription){
-      console.log('destroy de mapa subscribe');
-      this.mapaSubscription.unsubscribe(); 
+    if (this.mapaSubscription) {
+      this.mapaSubscription.unsubscribe();
     }
-    if(this.perfiltrabajoSubscription){
-      console.log('destroy de perfilTrabajo');
+    if (this.perfiltrabajoSubscription) {
       this.perfiltrabajoSubscription.unsubscribe();
     }
-    if(this.areaProfesionSubscrition){
-      console.log('destroy de areaProfesion');
+    if (this.areaProfesionSubscrition) {
       this.areaProfesionSubscrition.unsubscribe();
     }
   }

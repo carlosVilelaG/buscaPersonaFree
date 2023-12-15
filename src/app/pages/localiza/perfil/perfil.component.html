@@ -1,1 +1,68 @@
-<p>perfil works!</p>
+<div id="listado" class="container mt-3" *ngIf="!editaRegistraVisible">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Mi Perfil Laboral</h2>
+        </div>
+        <div class="card-body">
+            <button class="btn btn-primary mb-3" (click)="agregarPerfil()">Agregar Perfil</button>
+            <table  class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID-USUARIO</th>
+                        <th>Profesión</th>
+                        <th>Tiempo de Experiencia</th>
+                        <th>Introducción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let perfil of perfiles">
+                        <td>{{ perfil.id_usuario }}</td>
+                        <td>{{ getProfesionDescripcion(perfil.profesion) }}</td>
+                        <td>{{ perfil.tiempo_experiencia }}</td>
+                        <td>{{ perfil.introduccion }}</td>
+                        <td>
+                            <button class="btn btn-secondary"  (click)="editarPerfil(perfil.id_perfil)">Editar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+   </div>
+</div>
+
+
+<div id="registro" class="container mt-3" *ngIf="editaRegistraVisible">
+    <h2>{{ perfil.id_perfil ? 'Editar' : 'Agregar' }} Perfil</h2>
+    <form (ngSubmit)="guardarPerfil()">
+        <input type="hidden" [(ngModel)]="perfil.id_perfil" name="id_perfil">
+        <div class="form-group">
+            <label>ID Usuario</label>
+            <input class="form-control" [(ngModel)]="perfil.id_usuario" name="id_usuario" disabled="true">
+        </div>
+        <div class="form-group">
+            <label for="profesion">Profesión</label>
+            <select class="form-select" [(ngModel)]="perfil.profesion" name="profesion" required>
+                <option *ngFor="let profesion of profesiones" [value]="profesion.id">
+                  {{ profesion.nombre }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Tiempo de Experiencia</label>
+            <input class="form-control" [(ngModel)]="perfil.tiempo_experiencia" name="tiempo_experiencia" required>
+        </div>
+        <div class="form-group">
+            <label>Introducción</label>
+            <textarea class="form-control" [(ngModel)]="perfil.introduccion" name="introduccion" required></textarea>
+        </div>
+
+        <div class="form-group d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary me-2">Guardar</button>
+            <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+        </div>
+
+    </form>
+</div>
+

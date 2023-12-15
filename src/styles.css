@@ -54,5 +54,15 @@ html, body {
   background-color: white;
 }
 
+/* utilizado para formuarios */
+.card-header {
+  background-color: #007bff; 
+  color: white;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
 
 
