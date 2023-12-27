@@ -70,13 +70,19 @@ export class MapCustomService {
           this.cbAddres.emit(result);
         })
 
-        // Añade un marcador al mapa
+        // Añade un marcador al mapa, habilito para que el marker sea arrastrable
         console.log('****** lat:', this.lat);  
-        console.log('****** lng:', this.lng);          
-        this.marker =  new mapboxgl.Marker()
+        console.log('****** lng:', this.lng);
+        this.marker =  new mapboxgl.Marker({ draggable: true })
            .setLngLat([Number(this.lat), Number(this.lng)])
            .addTo(this.map);
-
+        
+        // Añadir manejador del evento 'dragend' para el marcador
+        this.marker.on('dragend', () => {
+          const lngLat = this.marker.getLngLat();
+          console.log('Marker arrastrado a: ', lngLat);
+          this.cbAddres.emit({ geometry: { coordinates: [lngLat.lng, lngLat.lat] } });
+        });
 
         /**Cuando el key se llama igual que el value o variable de valor
          * solo se pone la variable eje: geocoder
