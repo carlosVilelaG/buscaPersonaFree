@@ -7,4 +7,5 @@ export interface Contrato {
     fecha_inicio:string;
     fecha_fin:string;
     descripcion: string;
+    comentario: string;
 }

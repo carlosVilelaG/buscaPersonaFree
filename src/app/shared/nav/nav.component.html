@@ -22,7 +22,10 @@
             <a class="nav-link" routerLink="/perfil" aria-disabled="true">Mi Perfil</a>
           </li>          
           <li *ngIf="userLoginOn" class="nav-item">
-            <a class="nav-link" routerLink="/admin-contrato" aria-disabled="true">Administra Contratos</a>
+            <a class="nav-link" routerLink="/admin-contrato" aria-disabled="true">Administrar Contratos Vigente</a>
+          </li>
+          <li *ngIf="userLoginOn" class="nav-item">
+            <a class="nav-link" routerLink="/historico-contrato" aria-disabled="true">Contratos Historico</a>
           </li>
           <li *ngIf="userLoginOn" class="nav-item">
             <a class="nav-link" [routerLink]="['/inicio', { outsesion: 'outsesion' }]" aria-disabled="true">Cerrar Sesión</a>

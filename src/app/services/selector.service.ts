@@ -34,6 +34,12 @@ export class SelectorService {
     { id: 3, nombre: 'Más de 5 Dias' }
   ];
 
+  private estadosContrato = [
+    { id: 'CONTRATADO', nombre: 'CONTRATADO' },
+    { id: 'TERMINADO', nombre: 'TERMINADO' },
+    { id: 'CANCELADO', nombre: 'CANCELADO' }
+  ];
+
 
   constructor() { }
 
@@ -53,4 +59,7 @@ export class SelectorService {
     return this.tiposContrato;
   }
 
+  getEstadosContrato(){
+    return this.estadosContrato;
+  }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
 import { Subscription, catchError, tap, throwError } from 'rxjs';
+import { ClasificacionContrato } from 'src/app/models/calificacionContrato';
 import { Contrato } from 'src/app/models/contrato';
+import { CalificacionContratoService } from 'src/app/services/calificacion-contrato.service';
 import { ContratoService } from 'src/app/services/contrato.service';
 import { NavegacionService } from 'src/app/services/navegacion.service';
 import { SelectorService } from 'src/app/services/selector.service';
@@ -19,8 +21,10 @@ export class ContratoComponent implements OnInit, OnDestroy {
     tipo_contrato: 0,
     fecha_inicio: '',
     fecha_fin: '',
-    descripcion: ''
+    descripcion: '',
+    comentario: '',
   };
+  
   tipoContrato !: any[];
   private navigationSubscription?: Subscription;
   mensaje !:string;
@@ -32,7 +36,8 @@ export class ContratoComponent implements OnInit, OnDestroy {
     private navegacionService: NavegacionService,
     private router: ActivatedRoute, private route: Router,
     private contratoService : ContratoService,
-    private selectores: SelectorService
+    private selectores: SelectorService,
+    private calificacionContratoService : CalificacionContratoService,
   ) {
 
   }
@@ -42,7 +47,28 @@ export class ContratoComponent implements OnInit, OnDestroy {
     this.contratoSubscription = this.contratoService.crearContrato(this.contrato).subscribe({
       next: (response) => {
         this.mensaje = 'Contrato creado con exito:';
+        console.log('respuesta ', response);
+        console.log('respuesta :: ', response.id_contrato);
         this.deshabilitaContratar = true;
+
+        const calificacion : ClasificacionContrato = {
+          nivel_calificacion : 0,
+          comentario: '',
+          id_usuario_trabajador: this.contrato.id_usuario_trabajador,    
+          id_contrato: response.id_contrato as number,
+        }
+
+        this.calificacionContratoService.crearCalificacionContrato(calificacion).subscribe(
+          {
+            next: (response) => {
+              console.log( 'Registro de Calificaion correcta '); 
+            },
+            error: (error) =>{
+              this.mensaje = 'Registro de Calificacion Presenta inconvenientes: ';
+              console.log( 'Registro de Calificaion Presenta inconvenientes: ', error); 
+            }
+          }
+        );
       },
       error: (error) =>{
         this.mensaje = 'Registro de Contrato Presenta inconvenientes: ';

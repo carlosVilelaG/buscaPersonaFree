@@ -1,20 +1,23 @@
-<div id="listadoContrato" class="container mt-3">
+<div id="listadoContrato" class="container mt-3" *ngIf="!editaContratoVisible">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">Mis Contratos</h2>
+      <h2 class="card-title">Mis Contratos Vigentes</h2>
     </div>
     <div class="card-body">
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
             <th>ID-CONTRATO</th>
-            <th>CONTRATANTE</th>
+            <th>ID CONTRATANTE</th>
+            <th>NOMBRE CONTRATANTE</th>
             <th>ESTADO</th>
             <th>TIPO CONTRATO</th>
-            <th>CONTRATADO</th>
+            <th>ID CONTRATADO</th>
+            <th>NOMBRE CONTRATANTE</th>
             <th>FECHA INICIO</th>
             <th>FECHA FIN</th>
             <th>DESCRIPCION DEL TRABAJO</th>
+            <th>COMENTARIO</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -22,17 +25,20 @@
           <tr *ngFor="let contrato of contratos">
             <td>{{ contrato.id_contrato }}</td>
             <td>{{ contrato.id_usuario_contratante }}</td>
+            <td>{{ contrato.id_contrato ? nombreUsuarioContratistaLocal(contrato.id_contrato) : '' }}</td>
             <td>{{ contrato.estado }}</td>
             <td>{{ contrato.tipo_contrato }}</td>
             <td>{{ contrato.id_usuario_trabajador }}</td>
-            <td>{{ contrato.fecha_inicio }}</td>
-            <td>{{ contrato.fecha_fin }}</td>
+            <td>{{ contrato.id_contrato ? nombreUsuarioTrabajdor(contrato.id_contrato) : '' }}</td>
+            <td>{{ contrato.fecha_inicio | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td>{{ contrato.fecha_fin | date:'yyyy-MM-dd HH:mm:ss' }}</td>
             <td>{{ contrato.descripcion }}</td>
+            <td>{{ contrato.comentario }}</td>
 
             <td>
               <button
-                class="btn btn-secondary"
-                (click)="editarContrato(contrato.id_contrato)"
+                class="btn btn-primary"
+                (click)="editarContrato(contrato.id_contrato)"                
               >
                 Editar
               </button>
@@ -42,4 +48,57 @@
       </table>
     </div>
   </div>
+</div>
+
+<div id="editar" class="container mt-3" *ngIf="editaContratoVisible">
+  <h2>{{ contrato.id_contrato ? 'Editar' : 'Agregar' }} Contrato # {{contrato.id_contrato}}</h2>
+  <form (ngSubmit)="guardarEditContrato()">
+      <input type="hidden" [(ngModel)]="contrato.id_contrato" name="id_contrato">
+      <div class="form-group">
+          <label>ID Usuario Contratante</label>
+          <input class="form-control" [(ngModel)]="contrato.id_usuario_contratante" name="id_usuario_contratante" disabled="true">
+      </div>
+      <div class="form-group">
+          <label for="estado">Estado</label>
+          <select class="form-select" [(ngModel)]="contrato.estado" name="estado" required>
+              <option *ngFor="let estado of estadosContrato" [value]="estado.id">
+                {{ estado.nombre }}
+              </option>
+          </select>
+      </div>
+      <div class="form-group">
+        <label for="tipocontrato">Tipo Contrato</label>
+        <select class="form-select" [(ngModel)]="contrato.tipo_contrato" name="tipocontrato" required>
+            <option *ngFor="let tipocontrato of tiposContrato" [value]="tipocontrato.id">
+              {{ tipocontrato.nombre }}
+            </option>
+        </select>
+    </div>
+    <div class="form-group">
+      <label>ID Usuario Contratado</label>
+      <input class="form-control" [(ngModel)]="contrato.id_usuario_trabajador" name="id_usuario_trabajador" disabled="true">
+    </div>
+    <div class="form-group">
+          <label>Fecha Inicio</label>
+          <input class="form-control" [(ngModel)]="contrato.fecha_inicio" name="fecha_inicio" required readonly>
+    </div>
+    <div class="form-group">
+      <label>Fecha Fin</label>
+      <input class="form-control" [(ngModel)]="contrato.fecha_fin" name="fecha_fin" required>
+    </div>
+    <div class="form-group">
+       <label>Descripción del trabajo</label>
+       <textarea class="form-control" [(ngModel)]="contrato.descripcion" name="descripcion" required readonly></textarea>
+    </div>
+    <div class="form-group">
+      <label>Comentario</label>
+      <textarea class="form-control" [(ngModel)]="contrato.comentario" name="comentario" required></textarea>
+   </div>
+
+    <div class="form-group d-flex justify-content-center mt-3">
+          <button type="submit" class="btn btn-primary me-2">Guardar</button>
+          <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+    </div>
+
+  </form>
 </div>

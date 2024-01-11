@@ -32,5 +32,16 @@ export class ContratoService {
     return this.http.get<Contrato[]>(`${this.API_URL}/contrato/relacionado/${id_usuario}`);        
   }
   
+  consultaContratoGeneralRelacionado(id_usuario: number): Observable<Contrato[]> {
+    return this.http.get<Contrato[]>(`${this.API_URL}/contrato/general/${id_usuario}`);
+  }
+
+  editarContrato(datosContrato: Contrato): Observable<any> {
+    return this.http.put(`${this.API_URL}/contrato/editar`, datosContrato).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error('Error al actualizar contrato: ' + error.message));
+      })
+    );
+  }
 
 }

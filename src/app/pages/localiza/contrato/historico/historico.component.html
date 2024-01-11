@@ -1,0 +1,43 @@
+<div id="listadoContrato" class="container mt-3" >
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Mis Contratos Historicos</h2>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th># CONTRATO</th>
+              <th>ID CONTRATANTE</th>
+              <th>NOMBRE CONTRATANTE</th>
+              <th>ESTADO</th>
+              <th>TIPO CONTRATO</th>
+              <th>ID CONTRATADO</th>
+              <th>NOMBRE CONTRATADO</th>
+              <th>FECHA INICIO</th>
+              <th>FECHA FIN</th>
+              <th>DESCRIPCION DEL TRABAJO</th>
+              <th>COMENTARIO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let contrato of contratos">
+              <td>{{ contrato.id_contrato }}</td>
+              <td>{{ contrato.id_usuario_contratante }}</td>
+              <td>{{ contrato.id_contrato ? nombreUsuarioContratistaLocal(contrato.id_contrato) : '' }}</td>
+              <td>{{ contrato.estado }}</td>
+              <td>{{ nombreTipoContrato(contrato.tipo_contrato)}}</td>
+              <td>{{ contrato.id_usuario_trabajador }}</td>
+              <td>{{ contrato.id_contrato ? nombreUsuarioTrabajdor(contrato.id_contrato) : '' }}</td>
+              <td>{{ contrato.fecha_inicio | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+              <td>{{ contrato.fecha_fin | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+              <td>{{ contrato.descripcion }}</td>
+              <td>{{ contrato.comentario }}</td>              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+ 

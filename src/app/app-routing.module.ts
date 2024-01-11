@@ -7,6 +7,7 @@ import { TrabajadorComponent } from './pages/localiza/trabajador/trabajador.comp
 import { PerfilComponent } from './pages/localiza/perfil/perfil.component';
 import { RegistroComponent } from './auth/registro/registro.component';
 import { AdmincontratoComponent } from './pages/localiza/contrato/admincontrato/admincontrato.component';
+import { HistoricoComponent } from './pages/localiza/contrato/historico/historico.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/inicio', pathMatch:'full'},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'ubicacion', component:TrabajadorComponent},
   {path: 'registro', component:RegistroComponent},
   {path: 'perfil', component:PerfilComponent},
-  {path: 'admin-contrato', component:AdmincontratoComponent}
+  {path: 'admin-contrato', component:AdmincontratoComponent},
+  {path: 'historico-contrato', component:HistoricoComponent}
 ];
 
 @NgModule({

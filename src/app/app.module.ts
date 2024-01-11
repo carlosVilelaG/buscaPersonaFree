@@ -19,6 +19,10 @@ import { PerfilComponent } from './pages/localiza/perfil/perfil.component';
 import { AdmincontratoComponent } from './pages/localiza/contrato/admincontrato/admincontrato.component';
 import { RegistroComponent } from './auth/registro/registro.component';
 import { environment } from 'src/environments/environment.development';
+import { HistoricoComponent } from './pages/localiza/contrato/historico/historico.component';
+import { CalificaContratoComponent } from './pages/localiza/contrato/califica-contrato/califica-contrato.component';
+
+
 
 ///configuramos ruta y puerto de socketIO en environment.urlSocketIo
 const config: SocketIoConfig = { url: environment.urlSocketIo, options: {} };
@@ -38,6 +42,10 @@ const config: SocketIoConfig = { url: environment.urlSocketIo, options: {} };
     PerfilComponent,
     AdmincontratoComponent,
     RegistroComponent,
+    HistoricoComponent,
+    CalificaContratoComponent,
+
+    
     
   ],
   imports: [
