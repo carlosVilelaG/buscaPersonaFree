@@ -1,1 +1,110 @@
-<p>califica-contrato works!</p>
+<div id="listadoContrato" class="container mt-3" *ngIf="logeado">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Califica Tus Contratos</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID-CALIFICACION</th>
+                        <th>NIVEL CALIFICACION</th>
+                        <th>COMENTARIO</th>
+                        <th>ID RESPONSABLE</th>
+                        <th>RESPONSABLE DEL TRABAJO</th>
+                        <th>ACCION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let calificacionContrato of listaCalificacionContrato">
+                        <td>{{ calificacionContrato.ID_CALIFICACION }}</td>
+                        <td>{{ getNivelNombre(calificacionContrato.NIVEL_CALIFICACION) }}</td>
+                        <td>{{ calificacionContrato.COMENTARIO }}</td>
+                        <td>{{ calificacionContrato.ID_USUARIO_TRABAJADOR }}</td>
+                        <td>{{ calificacionContrato.ID_CONTRATO ?
+                            nombreUsuarioTrabajador(calificacionContrato.ID_CONTRATO) : ''}}</td>
+                        <td>
+                            <button class="btn btn-primary"
+                                (click)="editarCalificacion(calificacionContrato.ID_CALIFICACION)">
+                                Calificar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="editar" class="container mt-3" *ngIf="logeado">
+        <h2>{{ calificacionContrato.ID_CALIFICACION ? 'Editar' : 'Agregar' }} Calificacion #
+            {{calificacionContrato.ID_CALIFICACION}}</h2>
+        <form (ngSubmit)="guardarCalificacion()">
+            <input type="hidden" [(ngModel)]="calificacionContrato.ID_CALIFICACION" name="id_calificacion">            
+            
+            <div class="form-group">
+                <label for="tipocontrato">Nivel Calificacion</label>
+                <select class="form-select" [(ngModel)]="calificacionContrato.NIVEL_CALIFICACION" name="nivelcalificacion" required>
+                    <option value="" disabled selected>Seleccione un nivel</option>
+                    <option *ngFor="let nivel of nivelesCalificacion" [value]="nivel.id">
+                      {{ nivel.nombre }}
+                    </option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Comentario</label>
+                <textarea class="form-control" [(ngModel)]="calificacionContrato.COMENTARIO" name="comentario"
+                    required></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label>ID Usuario Contratado</label>
+                <input class="form-control" [(ngModel)]="calificacionContrato.ID_USUARIO_TRABAJADOR"
+                    name="id_usuario_trabajador" disabled="true">
+            </div>
+
+            <div class="form-group">
+                <label>ID Contrato</label>
+                <textarea class="form-control" [(ngModel)]="calificacionContrato.ID_CONTRATO" name="id_contrato"
+                    required readonly></textarea>
+            </div>
+
+
+            <div class="form-group d-flex justify-content-center mt-3">
+                <button type="submit" class="btn btn-primary me-2">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div id="listadoContratoGeneral" class="container mt-3" *ngIf="!logeado">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Trabajos realizados localizados por esta aplicacion</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID-CALIFICACION</th>
+                        <th>NIVEL CALIFICACION</th>
+                        <th>COMENTARIO</th>
+                        <th>RESPONSABLE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let calificacionContrato of listaCalificacionContrato">
+                        <td>{{ calificacionContrato.ID_CALIFICACION }}</td>
+                        <td>{{ getNivelNombre(calificacionContrato.NIVEL_CALIFICACION) }}</td>
+                        <td>{{ calificacionContrato.COMENTARIO }}</td>
+                        <td>{{ calificacionContrato.ID_CONTRATO ?
+                            nombreUsuarioTrabajador(calificacionContrato.ID_CONTRATO) : ''}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
 import { Subscription, catchError, tap, throwError } from 'rxjs';
-import { ClasificacionContrato } from 'src/app/models/calificacionContrato';
+import { CalificacionContrato } from 'src/app/models/calificacionContrato';
 import { Contrato } from 'src/app/models/contrato';
 import { CalificacionContratoService } from 'src/app/services/calificacion-contrato.service';
 import { ContratoService } from 'src/app/services/contrato.service';
@@ -51,11 +51,11 @@ export class ContratoComponent implements OnInit, OnDestroy {
         console.log('respuesta :: ', response.id_contrato);
         this.deshabilitaContratar = true;
 
-        const calificacion : ClasificacionContrato = {
-          nivel_calificacion : 0,
-          comentario: '',
-          id_usuario_trabajador: this.contrato.id_usuario_trabajador,    
-          id_contrato: response.id_contrato as number,
+        const calificacion : CalificacionContrato = {
+          NIVEL_CALIFICACION : 0,
+          COMENTARIO: '',
+          ID_USUARIO_TRABAJADOR: this.contrato.id_usuario_trabajador,    
+          ID_CONTRATO: response.id_contrato as number,
         }
 
         this.calificacionContratoService.crearCalificacionContrato(calificacion).subscribe(

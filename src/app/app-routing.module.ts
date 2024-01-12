@@ -8,6 +8,7 @@ import { PerfilComponent } from './pages/localiza/perfil/perfil.component';
 import { RegistroComponent } from './auth/registro/registro.component';
 import { AdmincontratoComponent } from './pages/localiza/contrato/admincontrato/admincontrato.component';
 import { HistoricoComponent } from './pages/localiza/contrato/historico/historico.component';
+import { CalificaContratoComponent } from './pages/localiza/contrato/califica-contrato/califica-contrato.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/inicio', pathMatch:'full'},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'registro', component:RegistroComponent},
   {path: 'perfil', component:PerfilComponent},
   {path: 'admin-contrato', component:AdmincontratoComponent},
-  {path: 'historico-contrato', component:HistoricoComponent}
+  {path: 'historico-contrato', component:HistoricoComponent},
+  {path: 'califica-contrato', component:CalificaContratoComponent}
 ];
 
 @NgModule({

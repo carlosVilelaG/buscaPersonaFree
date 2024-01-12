@@ -40,7 +40,18 @@ export class SelectorService {
     { id: 'CANCELADO', nombre: 'CANCELADO' }
   ];
 
-
+  private nivelCalificacion = [
+    { id: 1, nombre: '1- NO RECOMIEDO' },
+    { id: 2, nombre: '2- MALO' },
+    { id: 3, nombre: '3- MALO' },
+    { id: 4, nombre: '4- NO SE' },
+    { id: 5, nombre: '5- BUENO' },
+    { id: 6, nombre: '6- BUENO' },
+    { id: 7, nombre: '7- MUY BUENO' },
+    { id: 8, nombre: '8- MUY BUENO' },
+    { id: 9, nombre: '9- EXCELENTE' },
+    { id: 10, nombre: '10-EXCELENTE' },
+  ];
   constructor() { }
 
   getTiposIdentificacion() {
@@ -61,5 +72,9 @@ export class SelectorService {
 
   getEstadosContrato(){
     return this.estadosContrato;
+  }
+
+  getNivelCalificacion(){
+    return this.nivelCalificacion;
   }
 }
