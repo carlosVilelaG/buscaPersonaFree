@@ -27,16 +27,13 @@ export class MapCustomService {
   markerDriver: any = null;
   constructor(private httpClient: HttpClient) {
     this.mapbox.accessToken = environment.mapPk;
-    console.log('constructor ###################### evento: ');
   }
 
   /**buildMap Es el constructor del mapa **/
   buildMap(lng: string, lat: string): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        console.log('buildMap ###################### evento: ');
         this.lng = Number(lng); this.lat = Number(lat);
-        console.log('buildMap valores iniciales lat: ', this.lat); console.log('buildMap valores iniciales lng: ', this.lng);    
         this.map = new mapboxgl.Map({
           container: 'map', ///  ide del mapa en el html
           style: this.style,
@@ -56,23 +53,15 @@ export class MapCustomService {
         geocoder.on('result', ($event) => {
           const { result } = $event;
           const coordinates = $event.result.geometry.coordinates;
-           // Asegúrate de que $event.result y $event.result.geometry existe
-           console.log('###################### evento result: ', $event.result);
-           console.log('###################### evento coordinates: ' + coordinates);
-           console.log('### Coord 0 Seleccionada: ' + coordinates[0]); console.log('### Coord 1 Seleccionada: ' + coordinates[1]);
-          console.log('###################### evento capturado: ' + result);
           this.lat = coordinates[0];
           this.lng = coordinates[1];          
           geocoder.clear();
-          console.log('### Evento this.lat: ' +this.lat); console.log('### Evento this.lng: ' +this.lng); 
           // Mueve el marcador a las nuevas coordenadas
           this.marker.setLngLat([Number(this.lat), Number(this.lng)]);  
           this.cbAddres.emit(result);
         })
 
         // Añade un marcador al mapa, habilito para que el marker sea arrastrable
-        console.log('****** lat:', this.lat);  
-        console.log('****** lng:', this.lng);
         this.marker =  new mapboxgl.Marker({ draggable: true })
            .setLngLat([Number(this.lat), Number(this.lng)])
            .addTo(this.map);
@@ -97,7 +86,6 @@ export class MapCustomService {
   
   /// agrega el marcador en la coordenada ejemplo
   addMarkerCustom(coords: any): void {
-    console.log('addMarkerCustom ----->', coords);
     const el = document.createElement('div');
     el.className = 'marker';
     /// dibuja el logo del objetivo
