@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PerfilComponent } from './perfil.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PerfilComponent', () => {
   let component: PerfilComponent;
@@ -8,6 +9,7 @@ describe('PerfilComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [PerfilComponent]
     });
     fixture = TestBed.createComponent(PerfilComponent);
