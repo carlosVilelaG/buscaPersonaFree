@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Perfil } from 'src/app/models/perfil';
+import { Perfiltrabajador } from 'src/app/models/perfiltrabajador';
 import { PerfiltrabajoService } from 'src/app/services/perfiltrabajo.service';
 import { SelectorService } from 'src/app/services/selector.service';
 import { UsuarioService } from 'src/app/services/usuario.service';

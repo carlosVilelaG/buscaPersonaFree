@@ -72,10 +72,6 @@ export class UsuarioService {
     );
   }
 
-  consultaNombreUsuario1(id_usuario: number): Observable<string> {
-    return this.http.get<string>(`${this.API_ENDPOINT_USER}/nombreusuario/${id_usuario}`);        
-  }
-
   consultaNombreUsuario(id_usuario: number): Observable<string> {
     return this.http.get<{ nombre: string }>(`${this.API_ENDPOINT_USER}/nombreusuario/${id_usuario}`)
       .pipe(

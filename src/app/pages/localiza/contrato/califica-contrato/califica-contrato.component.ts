@@ -25,6 +25,7 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   mensaje!: string;
   logeado: boolean = false;
   nivelesCalificacion!: any[];
+  esEditar : boolean = false;
 
   constructor(
     private calificacionService: CalificacionContratoService,
@@ -38,9 +39,7 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
       if (this.usuarioServices.usuarioLoginOn) {
         this.id_usuario = id;
         if (id > 0) {
-          this.logeado = true;
-          console.log('Si esta en login');
-          console.log('id usuario :: ', this.id_usuario);
+          this.logeado = true;          
           this.calificacionService
             .consultaCalificacionesContratante(this.id_usuario)
             .subscribe({
@@ -54,8 +53,6 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
               },
             });
         } else {
-          console.log('Noooo esta en login');
-          console.log('id usuario :: ', this.id_usuario);
           this.calificacionService.consultaCalificacionesGeneral().subscribe({
             next: (response) => {
               this.listaCalificacionContrato = response;
@@ -107,7 +104,9 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
       (c) => c.ID_CALIFICACION === id_calificacion
     );
     if (calificacionParaEditar) {
-      this.calificacionContrato = { ...calificacionParaEditar };   
+      this.calificacionContrato = { ...calificacionParaEditar };  
+      this.esEditar = true; 
+      console.log('Entro a edita calificacionn:',this.calificacionContrato);
     }
    
   }
@@ -129,9 +128,12 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   
           // Reemplazar el contrato en la lista con el contrato actualizado
           if (indiceContrato !== -1) {
+            console.log('1.- Entro a edita calificacionn:',this.listaCalificacionContrato[indiceContrato]);
+            console.log('2.- Entro a edita calificacionn:',this.calificacionContrato);
             this.listaCalificacionContrato[indiceContrato] = this.calificacionContrato;
           }
           this.inicializaCalificacion();
+          this.esEditar = false;
         },
         error: (error) => {
           this.mensaje =
@@ -156,6 +158,8 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   
   cancelar(): void {
     this.inicializaCalificacion();
+    this.esEditar = false;
+    console.log('Entro a cancelar calificacionn');
   }
 
   getNivelNombre(id: number): string {

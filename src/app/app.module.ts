@@ -21,6 +21,7 @@ import { RegistroComponent } from './auth/registro/registro.component';
 import { environment } from 'src/environments/environment.development';
 import { HistoricoComponent } from './pages/localiza/contrato/historico/historico.component';
 import { CalificaContratoComponent } from './pages/localiza/contrato/califica-contrato/califica-contrato.component';
+import { PerfilTrabajadorComponent } from './pages/localiza/perfil/perfil-trabajador/perfil-trabajador.component';
 
 
 
@@ -44,6 +45,7 @@ const config: SocketIoConfig = { url: environment.urlSocketIo, options: {} };
     RegistroComponent,
     HistoricoComponent,
     CalificaContratoComponent,
+    PerfilTrabajadorComponent,
 
     
     

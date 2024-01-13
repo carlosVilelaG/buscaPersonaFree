@@ -30,21 +30,67 @@ html, body {
     display: flex;
     flex-direction: column;
   }
-/* Estilo de los enlaces activos */
-.navbar-nav .nav-link.active {
-  color: #007bff; /* Color para indicar la página activa */
-  font-weight: bold; /* Hacer el texto de la página activa más grueso */
+
+/**nav*/
+/* Aplica estilos generales al contenedor de la barra de navegación */
+.navbar {
+  background-color: #fff; /* Color de fondo */
+  box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Sombra suave para dar profundidad */
+}
+
+/* Estilos para los elementos de la lista */
+.navbar-nav {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Estilos para los enlaces */
+.navbar-nav .nav-link {
+  color: #333; /* Color de texto */
+  padding: 10px 15px; /* Espaciado alrededor de los enlaces */
+  transition: background-color 0.3s, color 0.3s; /* Transición suave para los estados interactivos */
+  font-size: 1.5em;
 }
 
 /* Estilo cuando el cursor pasa por encima de los enlaces */
 .navbar-nav .nav-link:hover {
-  background-color: #e9ecef; /* Color de fondo al pasar el cursor */
-  border-radius: 5px; /* Bordes redondeados para un look más suave */
-  color: #000; /* Cambio de color del texto al pasar el cursor */
-  padding: 5px 10px; /* Espaciado interior para hacer el enlace más grande */
-  transform: scale(1.05); /* Ligeramente más grande al pasar el cursor */
+  background-color: #e7e7e7; 
+  border-radius: 5px; 
+  color: #0056b3; 
+  padding: 5px 10px; 
+  transform: scale(1.05); 
 }
 
+/* Estilos para el enlace activo */
+.navbar-nav .nav-link.active {
+font-weight: bold; /* Texto en negrita para el enlace activo */
+color: #0056b3;
+text-decoration: underline;
+}
+/* Opciones de tipografía */
+.navbar-brand,
+.nav-link {
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fuente del menú */
+}
+
+/* Estilos para el botón de menú hamburguesa en vistas móviles */
+.navbar-toggler {
+border: none;
+color: #333; /* Color del icono del menú hamburguesa */
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  .navbar-nav .nav-link {
+  padding: 10px 20px; /* Mayor espaciado para enlaces en menú móvil */
+  }
+  /* Menú hamburguesa expandido con fondo más oscuro */
+  .navbar-collapse {
+  background-color: #f8f9fa;
+  }
+}
+
+/**fin nav**/
 
 /*   styles migrados desde trabajador.css */
 .geocoder, .mapboxgl-ctrl {

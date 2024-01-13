@@ -8,6 +8,7 @@ import { NavegacionService } from 'src/app/services/navegacion.service';
 import { AreaProfesion } from 'src/app/models/areaprofesion';
 import { AreaProfesionService } from 'src/app/services/area-profesion.service';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { Perfiltrabajador } from 'src/app/models/perfiltrabajador';
 
 @Component({
   selector: 'app-mapa',
@@ -24,7 +25,7 @@ export class MapaComponent {
   profesiones: AreaProfesion[] = [];
   areaProfesionPersona: string = '';
   noTieneUbicacion: boolean = false;
-  //private destroy$ = new Subject<void>();
+  
   private mapaSubscription!: Subscription;
   private ubicacionSubscription!: Subscription;
   private perfiltrabajoSubscription!: Subscription;
@@ -124,23 +125,33 @@ export class MapaComponent {
 
             if (!isNaN(lat) && !isNaN(lon) && this.mimapa) {
               const popupContent = `<div>
-               <p>${perfil.nombres} :: Profesión: ${perfil.profesion}</p>
+               <p>${perfil.nombres} :: Profesión: ${perfil.introduccion}</p>
                <div class="d-flex justify-content-center"><button class="btn btn-primary me-3" id="contratar${perfil.id}">Contratar</button>
                <button class="btn btn-primary" id="perfil${perfil.id}">Perfil</button> </div>               
                </div>`;
               const marcadoTrabajador = marker([lat, lon])
                 .addTo(this.mimapa)
                 .bindPopup(popupContent);
+
               marcadoTrabajador.on('popupopen', () => {
+                // Manejador para el botón de Contratar
                 const contratarButton = document.getElementById(
                   `contratar${perfil.id}`
                 );
                 if (contratarButton) {
                   contratarButton.addEventListener('click', () => {
-                    console.log('Botón contratar clickeado!');
                     this.navegarAContrato(this.userId, perfil.id);
                   });
                 }
+                // Manejador para el botón de ver perfil
+                const perfilButton = document.getElementById(`perfil${perfil.id}`);
+                if (perfilButton) {
+                  perfilButton.addEventListener('click', () => {
+                    console.log('Botón perfil clickeado!::', perfil.id);
+                    this.navegarAVerPerfilTrabajador(perfil.id);
+                  });
+                }
+
               });
 
               this.marcadores.push(marcadoTrabajador);
@@ -159,6 +170,10 @@ export class MapaComponent {
 
   navegarAContrato(idcontratante: number, idtrabajador: number) {
     this.router.navigate(['/crear-contrato', idcontratante, idtrabajador]);
+  }
+
+  navegarAVerPerfilTrabajador(perfilTrabajador : number) {
+    this.router.navigate(['/ver-perfil',perfilTrabajador]);
   }
 
   ngOnDestroy() {

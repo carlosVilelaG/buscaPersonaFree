@@ -42,9 +42,10 @@
         <form (ngSubmit)="guardarCalificacion()">
             <input type="hidden" [(ngModel)]="calificacionContrato.ID_CALIFICACION" name="id_calificacion">            
             
-            <div class="form-group">
+            <div class="form-group" >
                 <label for="tipocontrato">Nivel Calificacion</label>
-                <select class="form-select" [(ngModel)]="calificacionContrato.NIVEL_CALIFICACION" name="nivelcalificacion" required>
+                <select class="form-select" [(ngModel)]="calificacionContrato.NIVEL_CALIFICACION" 
+                        name="nivelcalificacion" required [disabled]="!esEditar">
                     <option value="" disabled selected>Seleccione un nivel</option>
                     <option *ngFor="let nivel of nivelesCalificacion" [value]="nivel.id">
                       {{ nivel.nombre }}
@@ -54,8 +55,8 @@
             
             <div class="form-group">
                 <label>Comentario</label>
-                <textarea class="form-control" [(ngModel)]="calificacionContrato.COMENTARIO" name="comentario"
-                    required></textarea>
+                <textarea class="form-control" [(ngModel)]="calificacionContrato.COMENTARIO" name="comentario" 
+                    required [disabled]="!esEditar"></textarea>
             </div>
 
 
@@ -73,8 +74,8 @@
 
 
             <div class="form-group d-flex justify-content-center mt-3">
-                <button type="submit" class="btn btn-primary me-2">Guardar</button>
-                <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+                <button type="submit" class="btn btn-primary me-2" [disabled]="!esEditar">Guardar</button>
+                <button type="button" class="btn btn-danger" [disabled]="!esEditar" (click)="cancelar()">Cancelar</button>
             </div>
 
         </form>

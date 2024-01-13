@@ -1,0 +1,28 @@
+<div id="listadoConsultaPerfil" class="container mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Perfil Laboral</h2>
+        </div>
+        <div class="card-body">
+            <table  class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>USUARIO</th>
+                        <th>PROFESIÓN</th>
+                        <th>EXPERIENCIA</th>
+                        <th>DESCIPCIÓN LABORAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let perfil of perfiles">
+                        <td>{{ nombre_usuario }}</td>
+                        <td>{{ getProfesionDescripcion(perfil.profesion) }}</td>
+                        <td>{{ perfil.tiempo_experiencia }}</td>
+                        <td>{{ perfil.introduccion }}</td>                        
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" (click)="cancelarRegistro()" class="btn btn-primary mb-3">Regresar</button>
+        </div>
+   </div>
+</div>
