@@ -9,7 +9,6 @@ export class NavegacionService {
    constructor() { }
  
    triggerNavigation(idcontratante: number, idtrabajador: number) {
-     console.log('Se llamo al evento con id ', idcontratante);
      // Emitimos un objeto con ambos IDs.
      this.navigateToContrato.emit({ idcontratante, idtrabajador });
    }

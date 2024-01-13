@@ -47,8 +47,6 @@ export class ContratoComponent implements OnInit, OnDestroy {
     this.contratoSubscription = this.contratoService.crearContrato(this.contrato).subscribe({
       next: (response) => {
         this.mensaje = 'Contrato creado con exito:';
-        console.log('respuesta ', response);
-        console.log('respuesta :: ', response.id_contrato);
         this.deshabilitaContratar = true;
 
         const calificacion : CalificacionContrato = {
@@ -65,14 +63,12 @@ export class ContratoComponent implements OnInit, OnDestroy {
             },
             error: (error) =>{
               this.mensaje = 'Registro de Calificacion Presenta inconvenientes: ';
-              console.log( 'Registro de Calificaion Presenta inconvenientes: ', error); 
             }
           }
         );
       },
       error: (error) =>{
         this.mensaje = 'Registro de Contrato Presenta inconvenientes: ';
-        console.log( 'Registro de Contrato Presenta inconvenientes: ', error); 
       }
     });    
 

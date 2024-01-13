@@ -84,14 +84,14 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
             id_usuario_trabajador: contrato.ID_USUARIO_TRABAJADOR,
             nombre_usuario_trabajador: nombreTrabajador,
           };
-          console.log('Se carga contrato con nombre');
+
           this.contratosCalificadoConNombres.push(contratoCalificarConNombres);
         });
     });
   }
 
   nombreUsuarioTrabajador(id_contrato: number): string {
-    console.log('se ejecuto metodo de nombre');
+
     const contrato = this.contratosCalificadoConNombres.find(
       (c) => c.id_contrato === id_contrato
     );
@@ -99,21 +99,21 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   }
 
   editarCalificacion(id_calificacion?: number) {
-    console.log('Para editar calificacion');
+
     const calificacionParaEditar = this.listaCalificacionContrato.find(
       (c) => c.ID_CALIFICACION === id_calificacion
     );
     if (calificacionParaEditar) {
       this.calificacionContrato = { ...calificacionParaEditar };  
       this.esEditar = true; 
-      console.log('Entro a edita calificacionn:',this.calificacionContrato);
+
     }
    
   }
 
   guardarCalificacion() {
     if(this.calificacionContrato){
-     console.log('Entro para editar calificacion::::');
+
      const parametros : any = {id_calificacion : this.calificacionContrato.ID_CALIFICACION,
                                nivel_calificacion: this.calificacionContrato.NIVEL_CALIFICACION, 
                                comentario : this.calificacionContrato.COMENTARIO }
@@ -128,8 +128,6 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   
           // Reemplazar el contrato en la lista con el contrato actualizado
           if (indiceContrato !== -1) {
-            console.log('1.- Entro a edita calificacionn:',this.listaCalificacionContrato[indiceContrato]);
-            console.log('2.- Entro a edita calificacionn:',this.calificacionContrato);
             this.listaCalificacionContrato[indiceContrato] = this.calificacionContrato;
           }
           this.inicializaCalificacion();
@@ -140,8 +138,6 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
             'Actualización  de contrato presenta inconvenientes: ' + error;
         },
       });
-    }else {
-      console.log('Nooooo entro para editar calificacion::::');
     }    
   }
 
@@ -159,7 +155,6 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   cancelar(): void {
     this.inicializaCalificacion();
     this.esEditar = false;
-    console.log('Entro a cancelar calificacionn');
   }
 
   getNivelNombre(id: number): string {

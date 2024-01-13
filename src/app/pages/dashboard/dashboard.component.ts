@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {    
     this.route.params.subscribe((params) => {
       if (params['outsesion'] === 'outsesion') {
-        console.log('entro a cerrar sesiony destruir subscricion');
         this.usuarioServer.initializeUserDetails();
         this.userLoginOn = false;
         this.userDatos = {

@@ -109,7 +109,6 @@ export class TrabajadorComponent implements OnInit {
         this.ocultarMensajeSegunTiempo();
       },
       error: (error) => {
-        console.error('Error al guardar ubicaciones:', error);
         this.mensaje = 'Presentamos inconvenientes: ' + error;
         this.ocultarMensajeSegunTiempo();
       },
@@ -125,8 +124,6 @@ export class TrabajadorComponent implements OnInit {
       this.mensajeClass = 'fade-out';
     }, 3000); // Comienza a desvanecer después de 3 segundos
   }
-
-
   
 }
 
@@ -134,5 +131,3 @@ export class WayPoints {
   start: any;
   end: any;
 }
-
-

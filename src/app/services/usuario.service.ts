@@ -82,7 +82,6 @@ export class UsuarioService {
 
   private handleError(error : HttpErrorResponse) {
     let errorMsg = "Error en la conexión o la consulta ";
-    console.log('Error desde servicio::',error.message);
     if (error.status === 401) {
       errorMsg = 'Credenciales inválidas';
     } else if (error.status === 402) {

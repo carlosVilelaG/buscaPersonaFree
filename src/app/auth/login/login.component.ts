@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit , OnDestroy {
           this.usuarioService.setUserIdentificacion(usuario.identificacion);
         },
         error: (errorData) =>{
-          console.log('entro a errorData::',errorData);
           this.loginError = errorData;
         },
         complete: () =>{

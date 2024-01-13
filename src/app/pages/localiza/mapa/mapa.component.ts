@@ -77,7 +77,6 @@ export class MapaComponent {
 
   inicializarMapaUsuarioLogin(): void {
     if (this.mimapa) {
-      console.log('Mapa ya inicializado.');
       return;
     }
 
@@ -147,7 +146,6 @@ export class MapaComponent {
                 const perfilButton = document.getElementById(`perfil${perfil.id}`);
                 if (perfilButton) {
                   perfilButton.addEventListener('click', () => {
-                    console.log('Botón perfil clickeado!::', perfil.id);
                     this.navegarAVerPerfilTrabajador(perfil.id);
                   });
                 }

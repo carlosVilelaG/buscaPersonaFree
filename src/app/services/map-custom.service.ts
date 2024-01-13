@@ -69,7 +69,6 @@ export class MapCustomService {
         // Añadir manejador del evento 'dragend' para el marcador
         this.marker.on('dragend', () => {
           const lngLat = this.marker.getLngLat();
-          console.log('Marker arrastrado a: ', lngLat);
           this.cbAddres.emit({ geometry: { coordinates: [lngLat.lng, lngLat.lat] } });
         });
 
