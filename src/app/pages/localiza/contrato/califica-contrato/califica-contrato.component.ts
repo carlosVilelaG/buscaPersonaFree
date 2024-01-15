@@ -44,8 +44,10 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
             .consultaCalificacionesContratante(this.id_usuario)
             .subscribe({
               next: (response) => {
+                console.log('Datos del Response:',response);
                 this.listaCalificacionContrato = response;
-                this.cargarContratosConNombres();
+                console.log('Se llena datos de la lista:', this.listaCalificacionContrato);
+                //this.cargarContratosConNombres();
               },
               error: (error) => {
                 this.mensaje =
@@ -55,8 +57,9 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
         } else {
           this.calificacionService.consultaCalificacionesGeneral().subscribe({
             next: (response) => {
+              console.log('Datos del Response:',response);
               this.listaCalificacionContrato = response;
-              this.cargarContratosConNombres();
+              //this.cargarContratosConNombres();
             },
             error: (error) => {
               this.mensaje =
