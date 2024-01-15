@@ -34,7 +34,7 @@
 
 <div id="registro" class="container mt-3" *ngIf="editaRegistraVisible">
     <h2>{{ perfil.id_perfil ? 'Editar' : 'Agregar' }} Perfil</h2>
-    <form (ngSubmit)="guardarPerfil()">
+    <form #perfilForm="ngForm" (ngSubmit)="guardarPerfil()">
         <input type="hidden" [(ngModel)]="perfil.id_perfil" name="id_perfil">
         <div class="form-group">
             <label>ID Usuario</label>
@@ -42,7 +42,8 @@
         </div>
         <div class="form-group">
             <label for="profesion">Profesión</label>
-            <select class="form-select" [(ngModel)]="perfil.profesion" name="profesion" required>
+            <select class="form-select" [(ngModel)]="perfil.profesion" name="profesion" required="true">
+                <option [ngValue]="null">Seleccione una profesión</option>
                 <option *ngFor="let profesion of profesiones" [value]="profesion.id">
                   {{ profesion.nombre }}
                 </option>
@@ -59,7 +60,7 @@
         </div>
 
         <div class="form-group d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-primary me-2">Guardar</button>
+            <button type="submit" class="btn btn-primary me-2" [disabled]="!perfilForm.form.valid">Guardar</button>
             <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
         </div>
 

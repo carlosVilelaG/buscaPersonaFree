@@ -29,7 +29,7 @@ private usuarioSubscription!: Subscription;
 
 constructor(private perfilesServices: PerfiltrabajoService,private usuarioServices: UsuarioService,
   private selectores: SelectorService) {
-
+    
 }
   ngOnInit(): void {
     this.profesiones = this.selectores.getAreProfesiones();
@@ -73,7 +73,7 @@ constructor(private perfilesServices: PerfiltrabajoService,private usuarioServic
     });
 }
 
-getProfesionDescripcion(idProfesion: number): string {
+getProfesionDescripcion(idProfesion: number ): string {
 
   const profesion = this.profesiones.find(p => {
     if(p.id === idProfesion){

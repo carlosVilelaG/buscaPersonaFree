@@ -26,6 +26,8 @@ export class SelectorService {
     { id: 8, nombre: 'CLASES MATEMATICAS' },
     { id: 9, nombre: 'ELECTRICO' },
     { id: 10, nombre: 'CONTRATISTA' },
+    { id: 11, nombre: 'REDES DE COMNICACION' },
+    { id: 12, nombre: 'BASE DE DATOS' },
   ];
 
   private tiposContrato = [
