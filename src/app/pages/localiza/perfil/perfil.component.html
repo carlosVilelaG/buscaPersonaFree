@@ -18,7 +18,7 @@
                 <tbody>
                     <tr *ngFor="let perfil of perfiles">
                         <td>{{ perfil.id_usuario }}</td>
-                        <td>{{ getProfesionDescripcion(perfil.profesion) }}</td>
+                        <td>{{ getProfesionDescripcion(perfil.profesion!) }}</td>
                         <td>{{ perfil.tiempo_experiencia }}</td>
                         <td>{{ perfil.introduccion }}</td>
                         <td>
