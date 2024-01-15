@@ -3,7 +3,7 @@
       <div class="col-lg-6">
         <h1 class="text-center">Registro de Usuario</h1>
   
-        <form (ngSubmit)="registrarUsuario()" class="card p-4">
+        <form  #registroForm="ngForm" (ngSubmit)="registrarUsuario()" class="card p-4">
           <!-- Estos campos están ocultos, así que no necesitan estructura de form-group -->
           <input type="hidden" [(ngModel)]="usuario.id" name="id_usuario" />
           <div class="form-group mb-3">
@@ -13,7 +13,7 @@
               class="form-control"
               [(ngModel)]="usuario.nombres"
               name="nombres"
-              placeholder="Nombres completo"
+              placeholder="Nombres completo" required="true"
             />
           </div>
           <div class="form-group mb-3">
@@ -22,8 +22,8 @@
               type="email"
               class="form-control"
               [(ngModel)]="usuario.email"
-              name="nombres"
-              placeholder="Email"
+              name="email"
+              placeholder="Email" required="true"
             />
           </div>
   
@@ -34,14 +34,15 @@
               class="form-control"
               [(ngModel)]="usuario.password"
               name="password"
-              placeholder="******"
+              placeholder="******" required="true"
             />
           </div>
   
           <div class="form-group mb-3">
             <label for="rol">Rol</label>
-            <select class="form-select" [(ngModel)]="usuario.rol" name="rol">
-                <option *ngFor="let rol of tiposRoles" [value]="rol.id">
+            <select class="form-select" [(ngModel)]="usuario.rol" name="rol" required="true">
+              <option [ngValue]="null" disabled selected>Seleccione un rol</option>
+              <option *ngFor="let rol of tiposRoles" [value]="rol.id">
                   {{ rol.nombre }}
                 </option>
             </select>
@@ -49,8 +50,9 @@
   
           <div class="form-group mb-3">
             <label for="tipoidentificacion">Tipo Identificación</label>
-            <select class="form-select" [(ngModel)]="usuario.tipoIdentificacion" name="rol">
-                <option *ngFor="let tipo of tiposIdentificaciones" [value]="tipo.id">
+            <select class="form-select" [(ngModel)]="usuario.tipoIdentificacion" name="tipoidentificacion" required="true">
+              <option value="" disabled selected>Seleccione un tipo de identificación</option>
+              <option *ngFor="let tipo of tiposIdentificaciones" [value]="tipo.id">
                   {{ tipo.nombre }}
                 </option>
             </select>
@@ -62,7 +64,7 @@
               class="form-control"
               [(ngModel)]="usuario.identificacion"
               name="identificacion"
-              placeholder="0172621900"
+              placeholder="0172621900" required="true"
             />
           </div>
           <!-- Estos campos están ocultos, así que no necesitan estructura de form-group -->
@@ -82,7 +84,7 @@
               class="form-control"
               [(ngModel)]="perfilTrabajo.tiempo_experiencia"
               name="tiempoTrabajo"
-              placeholder="1 año 3 meses"
+              placeholder="1 año 3 meses" required="true"
             />
           </div>
           <div class="form-group mb-3">
@@ -92,10 +94,17 @@
               class="form-control"
               [(ngModel)]="perfilTrabajo.introduccion"
               name="introduccion"
-              placeholder="introduccion"
+              placeholder="introduccion" required="true"
             />
           </div>
-          <button type="submit" class="btn btn-primary mb-3">Guardar</button>
+          <div *ngIf="mensaje" class="alert" [ngClass]="{'alert-success': mensaje.includes('éxito'),
+                   'alert-danger': mensaje.includes('Error'), 
+                   'fade-out': mensajeClass === 'fade-out'}">
+            {{ mensaje }}
+          </div>
+
+          
+          <button type="submit" class="btn btn-primary mb-3" [disabled]="!registroForm.form.valid">Guardar</button>
           <button type="button" (click)="cancelarRegistro()" class="btn btn-secondary mb-3">Cancelar</button>
         </form>
       </div>

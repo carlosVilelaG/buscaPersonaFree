@@ -103,6 +103,8 @@ export class TrabajadorComponent implements OnInit {
   async actualizaUbicacion() :Promise<void> {
     this.mensaje = "";
     this.mensajeClass = '';
+    this.mensaje = 'Guardado con éxito';
+    
     this.ubicacionService.guardaActualizaUbicacion(this.ubicacion).subscribe({
       next: (response) => {
         this.mensaje = 'Guardado con éxito';

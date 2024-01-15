@@ -4,6 +4,7 @@ import { Perfiltrabajador } from 'src/app/models/perfiltrabajador';
 import { Usuario } from 'src/app/models/usuario';
 import { SelectorService } from 'src/app/services/selector.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-registro',
@@ -17,14 +18,15 @@ tiposIdentificaciones!: any[];
 tiposRoles!: any[];
 profesiones !: any[];
 mensaje !:string;
+mensajeClass: string = '';
 
-constructor(private selectores: SelectorService, private usuarioServicio: UsuarioService){
+constructor(private selectores: SelectorService, private usuarioServicio: UsuarioService, private cdRef: ChangeDetectorRef,){
   this.usuario = {
     id : 0,
     nombres: '',
     email: '',
     password: '',
-    rol: 0,
+    rol: null,
     estado: 'INACTIVO',
     identificacion: '',
     tipoIdentificacion: '',
@@ -44,17 +46,49 @@ constructor(private selectores: SelectorService, private usuarioServicio: Usuari
   }
 
 async registrarUsuario() :Promise<void> {  
-  this.usuarioServicio.crearUsuario(this.usuario, this.perfilTrabajo).subscribe({
-    next: (response) => {
-      this.mensaje = 'Registro con éxito';
+  this.usuarioServicio.obtenerUsuarioPorEmail(this.usuario.email).subscribe({
+    next: (usuarioExistente) => {
+      if (usuarioExistente) {        
+        this.mensaje = 'El email ya está registrado.';
+        this.cdRef.detectChanges();
+        this.ocultarMensajeSegunTiempoRegistro();
+      } else {
+        this.crearNuevoUsuario();
+      }
     },
-    error: (error)=> {
-      this.mensaje = 'Presentamos inconvenientes: ' + error;
+    error: (error) => {
+      console.error('Error al verificar el email:', error);
     }
   });
 }
 
+crearNuevoUsuario() {
+  this.usuarioServicio.crearUsuario(this.usuario, this.perfilTrabajo).subscribe({
+    next: (response) => {
+      this.mensaje = 'Registro con éxito';
+      this.cdRef.detectChanges();
+      this.ocultarMensajeSegunTiempoRegistro();
+    },
+    error: (error)=> {
+      this.mensaje = 'Presentamos inconvenientes: ' + error;
+      this.cdRef.detectChanges();
+      this.ocultarMensajeSegunTiempoRegistro();
+    }
+  });
+}
 cancelarRegistro(): void {
   console.log('Cancelacion registro usuario para guardar :: ');   
 }
+
+
+ocultarMensajeSegunTiempoRegistro() {
+  setTimeout(() => {
+    this.mensaje = '';
+    this.mensajeClass = 'fade-out';
+  }, 5000);
+  setTimeout(() => {
+    this.mensajeClass = 'fade-out';
+  }, 3000);
+}
+
 }

@@ -3,8 +3,8 @@ export interface Usuario {
     nombres: string;
     email: string;
     password: string;
-    rol: number;
+    rol: number | null;
     estado?: string;
     identificacion:string;
-    tipoIdentificacion:string;
+    tipoIdentificacion:string | null;
 }

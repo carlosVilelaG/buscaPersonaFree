@@ -25,7 +25,7 @@ export class MapaComponent {
   profesiones: AreaProfesion[] = [];
   areaProfesionPersona: string = '';
   noTieneUbicacion: boolean = false;
-  
+  mensaje :string = '';
   private mapaSubscription!: Subscription;
   private ubicacionSubscription!: Subscription;
   private perfiltrabajoSubscription!: Subscription;
@@ -108,6 +108,7 @@ export class MapaComponent {
   }
 
   buscarProfesion() {
+    this.mensaje = '';
     if (!this.profesionBuscada) return;
     // Eliminoo marcadores existentes del mapa por busquedas anteriores
     this.marcadores.forEach((marcador) => {
@@ -118,7 +119,11 @@ export class MapaComponent {
       .obtenerPerfilesPorProfesion(this.profesionBuscada)
       .subscribe({
         next: (perfiles) => {
-          perfiles.forEach((perfil) => {
+          if(perfiles.length === 0){
+            this.mensaje = "No se encontraron personas disponibles para esa area";
+            console.log('No se encontraron personas disponibles para esa area')
+          } else {
+            perfiles.forEach((perfil) => {
             const lat = Number(perfil.latitud);
             const lon = Number(perfil.longitud);
 
@@ -155,9 +160,11 @@ export class MapaComponent {
               this.marcadores.push(marcadoTrabajador);
             }
           });
+        }
         },
         error: (error) => {
           console.error(error);
+          
         },
       });
   }

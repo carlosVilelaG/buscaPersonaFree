@@ -6,6 +6,12 @@
       NO TIENE UBICACIÓN REGISTRADA, FAVOR INGRESAR SUS DATOS DE UBICACIÓN.
       </div>
     </div>
+    <div>
+      <div *ngIf="mensaje" class="alert alert-danger" style="text-align: center; font-weight: bold;">
+        {{mensaje }}
+      </div>
+    </div>
+
     <select class="form-select" [(ngModel)]="profesionBuscada" (change)="buscarProfesion()" name="profesional">
         <option *ngFor="let profesion of profesiones" [value]="profesion.id_area">
           {{ profesion.nombre_area_profesion }}
