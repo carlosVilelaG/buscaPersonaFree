@@ -25,10 +25,10 @@
             <a class="nav-link" routerLink="/admin-contrato" aria-disabled="true" routerLinkActive="active">Administrar Contratos Vigente</a>
           </li>
           <li *ngIf="userLoginOn" class="nav-item">
-            <a class="nav-link" routerLink="/historico-contrato" aria-disabled="true" routerLinkActive="active">Contratos Historico</a>
+            <a class="nav-link" routerLink="/historico-contrato" aria-disabled="true" routerLinkActive="active">Contratos Histórico</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/califica-contrato" aria-disabled="true" routerLinkActive="active">Calificar Contratos</a>
+            <a class="nav-link" routerLink="/califica-contrato" aria-disabled="true" routerLinkActive="active">Reseña de Servicios</a>
           </li>
           <li *ngIf="userLoginOn" class="nav-item">
             <a class="nav-link" [routerLink]="['/inicio', { outsesion: 'outsesion' }]" aria-disabled="true">Cerrar Sesión</a>
