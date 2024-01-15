@@ -25,16 +25,16 @@ describe('CalificacionContratoService', () => {
 
   // Test for crearCalificacionContrato
   it('debería crear una calificación de contrato', () => {
-    const mockCalificacionContrato: CalificacionContrato = { ID_CALIFICACION: 0,
-      NIVEL_CALIFICACION : 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12 };
-    const mockResponse: CalificacionContrato = { ID_CALIFICACION: 1,
-      NIVEL_CALIFICACION : 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12
+    const mockCalificacionContrato: CalificacionContrato = { id_calificacion: 0,
+      nivel_calificacion : 0,
+      comentario: '',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12 };
+    const mockResponse: CalificacionContrato = { id_calificacion: 1,
+      nivel_calificacion : 0,
+      comentario: '',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12
      };
 
     service.crearCalificacionContrato(mockCalificacionContrato).subscribe(response => {
@@ -50,11 +50,11 @@ describe('CalificacionContratoService', () => {
   // Test for consultaCalificacionesContratante
   it('debería recuperar calificaciones para un contratante', () => {
     const mockIdContratante = 1;
-    const mockResponse: CalificacionContrato[] = [{  ID_CALIFICACION: 1,
-      NIVEL_CALIFICACION : 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12 }];
+    const mockResponse: CalificacionContrato[] = [{  id_calificacion: 1,
+      nivel_calificacion : 0,
+      comentario: '',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12 }];
 
     service.consultaCalificacionesContratante(mockIdContratante).subscribe(response => {
       expect(response).toEqual(mockResponse);
@@ -66,11 +66,11 @@ describe('CalificacionContratoService', () => {
   });
 
   it('debería recuperar calificaciones generales', () => {
-    const mockResponse: CalificacionContrato[] = [{  ID_CALIFICACION: 1,
-      NIVEL_CALIFICACION : 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12 }];
+    const mockResponse: CalificacionContrato[] = [{  id_calificacion: 1,
+      nivel_calificacion : 0,
+      comentario: '',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12 }];
 
     service.consultaCalificacionesGeneral().subscribe(calificaciones => {
       expect(calificaciones).toEqual(mockResponse);
@@ -82,16 +82,16 @@ describe('CalificacionContratoService', () => {
   });
 
   it('debería editar un contrato de calificación', () => {
-    const mockCalificacionContrato: CalificacionContrato = {  ID_CALIFICACION: 1,
-      NIVEL_CALIFICACION : 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12 };
-    const mockResponse = {  ID_CALIFICACION: 1,
-      NIVEL_CALIFICACION : 9,
-      COMENTARIO: 'buen trabajo, recomendado',
-      ID_USUARIO_TRABAJADOR: 123,    
-      ID_CONTRATO: 12 };
+    const mockCalificacionContrato: CalificacionContrato = {  id_calificacion: 1,
+      nivel_calificacion : 0,
+      comentario: '',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12 };
+    const mockResponse = {  id_calificacion: 1,
+      nivel_calificacion : 9,
+      comentario: 'buen trabajo, recomendado',
+      id_usuario_trabajador: 123,    
+      id_contrato: 12 };
 
     service.editarCalificacion(mockCalificacionContrato).subscribe(response => {
       expect(response).toEqual(mockResponse);

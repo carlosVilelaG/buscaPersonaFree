@@ -15,11 +15,11 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   listaCalificacionContrato: CalificacionContrato[] = [];
   contratosCalificadoConNombres: ContratoConNombre[] = [];
   calificacionContrato: CalificacionContrato = {
-    ID_CALIFICACION: 0,
-    NIVEL_CALIFICACION: 0,
-    COMENTARIO: '',
-    ID_USUARIO_TRABAJADOR: 0,
-    ID_CONTRATO: 0,
+    id_calificacion: 0,
+    nivel_calificacion: 0,
+    comentario: '',
+    id_usuario_trabajador: 0,
+    id_contrato: 0,
   };
   id_usuario!: number;
   mensaje!: string;
@@ -74,14 +74,14 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
     this.listaCalificacionContrato.forEach((contrato) => {
       // El nombre del usuario trabajador
       this.usuarioServices
-        .consultaNombreUsuario(contrato.ID_USUARIO_TRABAJADOR)
+        .consultaNombreUsuario(contrato.id_usuario_trabajador)
         .subscribe((nombreTrabajador) => {
           // Creo un objeto ContratoConNombreUsuario con ambos nombres y otros campos
           const contratoCalificarConNombres: ContratoConNombre = {
-            id_contrato: contrato.ID_CONTRATO,
+            id_contrato: contrato.id_contrato,
             id_usuario_contratante: 0,
             nombre_usuario_contratante: '',
-            id_usuario_trabajador: contrato.ID_USUARIO_TRABAJADOR,
+            id_usuario_trabajador: contrato.id_usuario_trabajador,
             nombre_usuario_trabajador: nombreTrabajador,
           };
 
@@ -101,7 +101,7 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   editarCalificacion(id_calificacion?: number) {
 
     const calificacionParaEditar = this.listaCalificacionContrato.find(
-      (c) => c.ID_CALIFICACION === id_calificacion
+      (c) => c.id_calificacion === id_calificacion
     );
     if (calificacionParaEditar) {
       this.calificacionContrato = { ...calificacionParaEditar };  
@@ -114,16 +114,16 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
   guardarCalificacion() {
     if(this.calificacionContrato){
 
-     const parametros : any = {id_calificacion : this.calificacionContrato.ID_CALIFICACION,
-                               nivel_calificacion: this.calificacionContrato.NIVEL_CALIFICACION, 
-                               comentario : this.calificacionContrato.COMENTARIO }
+     const parametros : any = {id_calificacion : this.calificacionContrato.id_calificacion,
+                               nivel_calificacion: this.calificacionContrato.nivel_calificacion, 
+                               comentario : this.calificacionContrato.comentario }
 
       this.calificacionService.editarCalificacion(parametros).subscribe({
         next: (response) => {
           this.mensaje = 'Calificacion actualizada con éxito';
           // Encontrar el índice del contrato en la lista por su ID
           const indiceContrato = this.listaCalificacionContrato.findIndex(
-            (c) => c.ID_CONTRATO === this.calificacionContrato.ID_CONTRATO
+            (c) => c.id_contrato === this.calificacionContrato.id_contrato
           );
   
           // Reemplazar el contrato en la lista con el contrato actualizado
@@ -135,7 +135,7 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.mensaje =
-            'Actualización  de contrato presenta inconvenientes: ' + error;
+            'Actualización  de contrato presenta inconvenientes: ';
         },
       });
     }    
@@ -144,11 +144,11 @@ export class CalificaContratoComponent implements OnInit, OnDestroy {
 
   inicializaCalificacion() : void {
     this.calificacionContrato = {
-      ID_CALIFICACION: 0,
-      NIVEL_CALIFICACION: 0,
-      COMENTARIO: '',
-      ID_USUARIO_TRABAJADOR: 0,
-      ID_CONTRATO: 0,
+      id_calificacion: 0,
+      nivel_calificacion: 0,
+      comentario: '',
+      id_usuario_trabajador: 0,
+      id_contrato: 0,
     };
   }
   

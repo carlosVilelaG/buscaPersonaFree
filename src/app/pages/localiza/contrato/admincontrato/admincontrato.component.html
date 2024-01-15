@@ -38,7 +38,8 @@
             <td>
               <button
                 class="btn btn-primary"
-                (click)="editarContrato(contrato.id_contrato)"                
+                (click)="editarContrato(contrato.id_contrato)" 
+                [disabled]="contrato.estado !== 'CONTRATADO'"               
               >
                 Editar
               </button>

@@ -7,7 +7,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID-CALIFICACION</th>
+                        <th>RESEÑA N°</th>
                         <th>NIVEL CALIFICACION</th>
                         <th>COMENTARIO</th>
                         <th>ID RESPONSABLE</th>
@@ -17,15 +17,15 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let calificacionContrato of listaCalificacionContrato">
-                        <td>{{ calificacionContrato.ID_CALIFICACION }}</td>
-                        <td>{{ getNivelNombre(calificacionContrato.NIVEL_CALIFICACION) }}</td>
-                        <td>{{ calificacionContrato.COMENTARIO }}</td>
-                        <td>{{ calificacionContrato.ID_USUARIO_TRABAJADOR }}</td>
-                        <td>{{ calificacionContrato.ID_CONTRATO ?
-                            nombreUsuarioTrabajador(calificacionContrato.ID_CONTRATO) : ''}}</td>
+                        <td>{{ calificacionContrato.id_calificacion }}</td>
+                        <td>{{ getNivelNombre(calificacionContrato.nivel_calificacion) }}</td>
+                        <td>{{ calificacionContrato.comentario }}</td>
+                        <td>{{ calificacionContrato.id_usuario_trabajador }}</td>
+                        <td>{{ calificacionContrato.id_contrato ?
+                            nombreUsuarioTrabajador(calificacionContrato.id_contrato) : ''}}</td>
                         <td>
                             <button class="btn btn-primary"
-                                (click)="editarCalificacion(calificacionContrato.ID_CALIFICACION)">
+                                (click)="editarCalificacion(calificacionContrato.id_calificacion)">
                                 Calificar
                             </button>
                         </td>
@@ -37,14 +37,14 @@
 
 
     <div id="editar" class="container mt-3" *ngIf="logeado">
-        <h2>{{ calificacionContrato.ID_CALIFICACION ? 'Editar' : 'Agregar' }} Calificacion #
-            {{calificacionContrato.ID_CALIFICACION}}</h2>
+        <h2>{{ calificacionContrato.id_calificacion ? 'Editar' : 'Agregar' }} Calificacion #
+            {{calificacionContrato.id_calificacion}}</h2>
         <form (ngSubmit)="guardarCalificacion()">
-            <input type="hidden" [(ngModel)]="calificacionContrato.ID_CALIFICACION" name="id_calificacion">            
+            <input type="hidden" [(ngModel)]="calificacionContrato.id_calificacion" name="id_calificacion">            
             
             <div class="form-group" >
                 <label for="tipocontrato">Nivel Calificacion</label>
-                <select class="form-select" [(ngModel)]="calificacionContrato.NIVEL_CALIFICACION" 
+                <select class="form-select" [(ngModel)]="calificacionContrato.nivel_calificacion" 
                         name="nivelcalificacion" required [disabled]="!esEditar">
                     <option value="" disabled selected>Seleccione un nivel</option>
                     <option *ngFor="let nivel of nivelesCalificacion" [value]="nivel.id">
@@ -55,20 +55,20 @@
             
             <div class="form-group">
                 <label>Comentario</label>
-                <textarea class="form-control" [(ngModel)]="calificacionContrato.COMENTARIO" name="comentario" 
+                <textarea class="form-control" [(ngModel)]="calificacionContrato.comentario" name="comentario" 
                     required [disabled]="!esEditar"></textarea>
             </div>
 
 
             <div class="form-group">
                 <label>ID Usuario Contratado</label>
-                <input class="form-control" [(ngModel)]="calificacionContrato.ID_USUARIO_TRABAJADOR"
+                <input class="form-control" [(ngModel)]="calificacionContrato.id_usuario_trabajador"
                     name="id_usuario_trabajador" disabled="true">
             </div>
 
             <div class="form-group">
                 <label>ID Contrato</label>
-                <textarea class="form-control" [(ngModel)]="calificacionContrato.ID_CONTRATO" name="id_contrato"
+                <textarea class="form-control" [(ngModel)]="calificacionContrato.id_contrato" name="id_contrato"
                     required readonly></textarea>
             </div>
 
@@ -90,7 +90,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID-CALIFICACION</th>
+                        <th>RESEÑA N°</th>
                         <th>NIVEL CALIFICACION</th>
                         <th>COMENTARIO</th>
                         <th>RESPONSABLE</th>
@@ -98,11 +98,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let calificacionContrato of listaCalificacionContrato">
-                        <td>{{ calificacionContrato.ID_CALIFICACION }}</td>
-                        <td>{{ getNivelNombre(calificacionContrato.NIVEL_CALIFICACION) }}</td>
-                        <td>{{ calificacionContrato.COMENTARIO }}</td>
-                        <td>{{ calificacionContrato.ID_CONTRATO ?
-                            nombreUsuarioTrabajador(calificacionContrato.ID_CONTRATO) : ''}}</td>
+                        <td>{{ calificacionContrato.id_calificacion }}</td>
+                        <td>{{ getNivelNombre(calificacionContrato.nivel_calificacion) }}</td>
+                        <td>{{ calificacionContrato.comentario }}</td>
+                        <td>{{ calificacionContrato.id_contrato ?
+                            nombreUsuarioTrabajador(calificacionContrato.id_contrato) : ''}}</td>
                     </tr>
                 </tbody>
             </table>

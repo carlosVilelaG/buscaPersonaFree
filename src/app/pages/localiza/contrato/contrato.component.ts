@@ -50,12 +50,12 @@ export class ContratoComponent implements OnInit, OnDestroy {
         this.deshabilitaContratar = true;
 
         const calificacion : CalificacionContrato = {
-          NIVEL_CALIFICACION : 0,
-          COMENTARIO: '',
-          ID_USUARIO_TRABAJADOR: this.contrato.id_usuario_trabajador,    
-          ID_CONTRATO: response.id_contrato as number,
+          nivel_calificacion : 0,
+          comentario: '',
+          id_usuario_trabajador: this.contrato.id_usuario_trabajador,    
+          id_contrato: response.id_contrato as number,
         }
-
+        console.log('antes del crear calificaciones::',calificacion);
         this.calificacionContratoService.crearCalificacionContrato(calificacion).subscribe(
           {
             next: (response) => {

@@ -1,8 +1,8 @@
 export interface CalificacionContrato {
-    ID_CALIFICACION?: number;
-    NIVEL_CALIFICACION :number;
-    COMENTARIO: string;
-    ID_USUARIO_TRABAJADOR: number;    
-    ID_CONTRATO: number;
+    id_calificacion?: number;
+    nivel_calificacion :number;
+    comentario: string;
+    id_usuario_trabajador: number;    
+    id_contrato: number;
 
 }

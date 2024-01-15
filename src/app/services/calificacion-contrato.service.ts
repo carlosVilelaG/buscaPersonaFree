@@ -13,6 +13,8 @@ export class CalificacionContratoService {
   constructor(private http: HttpClient) { }
 
   crearCalificacionContrato(datosCalificacionContrato: CalificacionContrato): Observable<CalificacionContrato> {
+    console.log("llego datos de calificacion:", datosCalificacionContrato);
+    console.log("ruta de crear calificacion ",`${this.API_URL}/calificacion/crear`);
     return this.http.post<CalificacionContrato>(`${this.API_URL}/calificacion/crear`, datosCalificacionContrato);
   }
 
