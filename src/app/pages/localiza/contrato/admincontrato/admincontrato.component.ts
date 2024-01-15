@@ -125,7 +125,6 @@ export class AdmincontratoComponent implements OnInit, OnDestroy {
             id_usuario_trabajador:  contrato.id_usuario_trabajador,
             nombre_usuario_trabajador: nombreTrabajador
           };
-          console.log('Se carga contrato con nombre');
           this.contratosConNombres.push(contratoConNombres);
         });
       });

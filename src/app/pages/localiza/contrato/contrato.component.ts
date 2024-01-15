@@ -55,7 +55,7 @@ export class ContratoComponent implements OnInit, OnDestroy {
           id_usuario_trabajador: this.contrato.id_usuario_trabajador,    
           id_contrato: response.id_contrato as number,
         }
-        console.log('antes del crear calificaciones::',calificacion);
+
         this.calificacionContratoService.crearCalificacionContrato(calificacion).subscribe(
           {
             next: (response) => {
