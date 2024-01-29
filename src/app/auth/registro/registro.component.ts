@@ -48,8 +48,8 @@ constructor(private selectores: SelectorService, private usuarioServicio: Usuari
 async registrarUsuario() :Promise<void> {  
   this.usuarioServicio.obtenerUsuarioPorEmail(this.usuario.email).subscribe({
     next: (usuarioExistente) => {
-      if (usuarioExistente) {        
-        this.mensaje = 'El email ya está registrado.';
+      if (usuarioExistente && usuarioExistente.length > 0) {        
+        this.mensaje = 'El email ya está registrado.';        
         this.cdRef.detectChanges();
         this.ocultarMensajeSegunTiempoRegistro();
       } else {

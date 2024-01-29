@@ -79,8 +79,8 @@ export class UsuarioService {
       );
   }
 
-  obtenerUsuarioPorEmail(email: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.API_ENDPOINT_USER}/emailUsuario/${email}`);
+  obtenerUsuarioPorEmail(email: string): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.API_ENDPOINT_USER}/emailUsuario/${email}`);
   }
 
   private handleError(error : HttpErrorResponse) {
